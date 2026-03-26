@@ -15,6 +15,7 @@ interface Props {
   placeholder: string;
   accept?: string;
   optional?: boolean;
+  multiple?: boolean;
 }
 
 /** Extract text from a PDF file using pdf.js. */
@@ -72,20 +73,31 @@ const ACCEPTED = '.md,.txt,.markdown,.pdf,.docx,.doc';
 
 export function DocumentInput({
   id, title, icon, content, onChange,
-  placeholder, accept = ACCEPTED, optional,
+  placeholder, accept = ACCEPTED, optional, multiple,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [parsing, setParsing] = useState(false);
   const [parseError, setParseError] = useState('');
+  const [fileCount, setFileCount] = useState(0);
 
-  const handleFile = useCallback(async (file: File | undefined) => {
-    if (!file) return;
+  const handleFiles = useCallback(async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
     setParsing(true);
     setParseError('');
 
     try {
-      const text = await extractFileText(file);
-      onChange(text);
+      const parts: string[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const text = await extractFileText(file);
+        if (files.length > 1) {
+          parts.push(`--- ${file.name} ---\n${text}`);
+        } else {
+          parts.push(text);
+        }
+      }
+      setFileCount(files.length);
+      onChange(parts.join('\n\n'));
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       setParseError(msg);
@@ -98,8 +110,8 @@ export function DocumentInput({
   const handleDrop = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.currentTarget.classList.remove('dragover');
-    handleFile(e.dataTransfer.files[0]);
-  }, [handleFile]);
+    handleFiles(e.dataTransfer.files);
+  }, [handleFiles]);
 
   return (
     <div className="doc-input-panel" id={`${id}Section`}>
@@ -117,7 +129,7 @@ export function DocumentInput({
         onDrop={handleDrop}
       >
         <div className="drop-zone-icon">📁</div>
-        <p>{parsing ? '⏳ Reading file...' : 'Drop your file here (.md, .txt, .pdf, .docx)'}</p>
+        <p>{parsing ? '⏳ Reading file...' : `Drop your file${multiple ? '(s)' : ''} here (.md, .txt, .pdf, .docx)`}</p>
         <small>or click to browse</small>
       </div>
       <input
@@ -125,7 +137,8 @@ export function DocumentInput({
         type="file"
         className="file-input"
         accept={accept}
-        onChange={e => handleFile(e.target.files?.[0])}
+        multiple={multiple}
+        onChange={e => handleFiles(e.target.files)}
       />
 
       {parseError && (
@@ -144,7 +157,8 @@ export function DocumentInput({
         <div className="doc-status">
           <span className="doc-status-dot" />
           {Math.round(content.length / 1000)}k chars loaded
-          <button className="clear-btn" onClick={() => onChange('')}>✕ Clear</button>
+          {fileCount > 1 && <span className="file-count-badge">{fileCount} files</span>}
+          <button className="clear-btn" onClick={() => { onChange(''); setFileCount(0); }}>✕ Clear</button>
         </div>
       )}
     </div>

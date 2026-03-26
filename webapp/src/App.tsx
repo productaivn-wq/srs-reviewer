@@ -112,6 +112,7 @@ export default function App() {
             content={srsContent}
             onChange={setSrsContent}
             placeholder={'Upload or paste your SRS content in Markdown format...\n\n# 1. Introduction\n## 1.1 Purpose\n...'}
+            multiple
           />
         </div>
       </section>
