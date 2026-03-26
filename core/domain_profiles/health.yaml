@@ -1,0 +1,103 @@
+# Domain Safety Profile: AI Health
+# Used by SRS Reviewer to inject domain-specific safety checks into reviews.
+# See: domain_profile_loader.py
+
+name: AI Health
+description: >
+  Safety checks for health-tech products covering medical diagnosis wording,
+  prescription language, disclaimers, refusal logic, data overclaiming,
+  red flag escalation, and commercial mixing.
+
+checks:
+  - id: DH-001
+    title: "Kiểm tra wording chẩn đoán"
+    description: >
+      Flag wording that could be interpreted as medical diagnosis.
+      The SRS must NOT use language implying the system diagnoses conditions.
+    severity: critical
+    keywords:
+      - "chẩn đoán"
+      - "diagnosis"
+      - "xác định bệnh"
+      - "phát hiện bệnh"
+      - "diagnostic"
+
+  - id: DH-002
+    title: "Kiểm tra wording kê đơn / chỉ định điều trị"
+    description: >
+      Flag wording that implies the system prescribes medication or treatment.
+      Must use advisory language only.
+    severity: critical
+    keywords:
+      - "kê đơn"
+      - "prescription"
+      - "chỉ định điều trị"
+      - "treatment plan"
+      - "thuốc"
+      - "medication"
+
+  - id: DH-003
+    title: "Kiểm tra disclaimer"
+    description: >
+      Verify the SRS includes health disclaimers stating the system
+      does NOT replace professional medical advice.
+    severity: critical
+    keywords:
+      - "disclaimer"
+      - "tuyên bố miễn trừ"
+      - "không thay thế bác sĩ"
+      - "tham khảo ý kiến bác sĩ"
+
+  - id: DH-004
+    title: "Kiểm tra refusal logic"
+    description: >
+      Check for refusal/escalation paths when the system cannot
+      safely provide health information.
+    severity: major
+    keywords:
+      - "từ chối"
+      - "refusal"
+      - "escalation"
+      - "chuyển tiếp bác sĩ"
+      - "giới hạn phạm vi"
+
+  - id: DH-005
+    title: "Kiểm tra overclaim từ dữ liệu"
+    description: >
+      Flag overclaiming from wearable, app health data, or lab image analysis.
+      Data interpretation must include confidence levels and limitations.
+    severity: major
+    keywords:
+      - "wearable"
+      - "thiết bị đeo"
+      - "xét nghiệm"
+      - "ảnh xét nghiệm"
+      - "lab result"
+      - "health data"
+
+  - id: DH-006
+    title: "Kiểm tra red flag / escalation"
+    description: >
+      Verify the SRS defines red flag conditions that trigger
+      immediate user escalation to medical professionals.
+    severity: major
+    keywords:
+      - "red flag"
+      - "cảnh báo khẩn"
+      - "emergency"
+      - "cấp cứu"
+      - "triệu chứng nguy hiểm"
+
+  - id: DH-007
+    title: "Kiểm tra lẫn health advice với thương mại"
+    description: >
+      Flag mixing health advice with commercial content,
+      product recommendations, or advertising.
+    severity: major
+    keywords:
+      - "quảng cáo"
+      - "advertisement"
+      - "gợi ý sản phẩm"
+      - "commercial"
+      - "khuyến mãi"
+      - "mua"

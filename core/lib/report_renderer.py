@@ -258,3 +258,179 @@ class ReportRenderer:
             "",
             f"```\n{result.get('error', 'Unknown error')}\n```",
         ])
+
+    def render_annotated(
+        self, review_result: Dict, original_srs: str
+    ) -> str:
+        """
+        Create an annotated version of the SRS with inline PM comments.
+
+        Inserts [PM COMMENT] blocks below paragraphs that match issue evidence.
+
+        Args:
+            review_result: Parsed JSON from LLM review.
+            original_srs: The original SRS markdown content.
+
+        Returns:
+            Annotated SRS markdown string.
+        """
+        if "error" in review_result:
+            return original_srs
+
+        # Collect all issues with their evidence
+        all_issues = []
+        for section in review_result.get("sections", []):
+            for issue in section.get("issues", []):
+                if isinstance(issue, dict):
+                    all_issues.append(issue)
+
+        if not all_issues:
+            return original_srs
+
+        # Split SRS into lines for annotation
+        srs_lines = original_srs.split("\n")
+        annotated_lines = []
+        used_issues: set = set()
+
+        for line in srs_lines:
+            annotated_lines.append(line)
+
+            # Check if any issue evidence matches this line
+            for i, issue in enumerate(all_issues):
+                if i in used_issues:
+                    continue
+                evidence_list = issue.get("evidence", [])
+                for evidence in evidence_list:
+                    if not evidence or len(evidence) < 10:
+                        continue
+                    # Check if evidence appears in this line (fuzzy: first 40 chars)
+                    evidence_snippet = evidence[:40].strip()
+                    if evidence_snippet.lower() in line.lower():
+                        comment = self._format_pm_comment(issue)
+                        annotated_lines.append("")
+                        annotated_lines.append(comment)
+                        annotated_lines.append("")
+                        used_issues.add(i)
+                        break
+
+        # Append unmatched issues at the end
+        unmatched = [
+            issue for i, issue in enumerate(all_issues) if i not in used_issues
+        ]
+        if unmatched:
+            annotated_lines.extend([
+                "",
+                "---",
+                "",
+                "## Các vấn đề chưa gắn vào vị trí cụ thể",
+                "",
+            ])
+            for issue in unmatched:
+                annotated_lines.append(self._format_pm_comment(issue))
+                annotated_lines.append("")
+
+        return "\n".join(annotated_lines)
+
+    def _format_pm_comment(self, issue: Dict) -> str:
+        """Format a single issue as an inline PM comment block."""
+        severity = issue.get("severity", "minor").capitalize()
+        issue_type = issue.get("issueType", "")
+        issue_text = issue.get("issue", "")
+        evidence = issue.get("evidence", [])
+
+        type_label = ISSUE_TYPE_LABELS.get(issue_type, issue_type)
+
+        lines = [
+            f"> **[PM COMMENT — {severity}]**",
+        ]
+        if type_label:
+            lines.append(f"> **Loại vấn đề**: {type_label}")
+        lines.append(f"> **Vấn đề**: {issue_text}")
+        if evidence:
+            lines.append(f"> **Bằng chứng**: {evidence[0][:200]}")
+
+        return "\n".join(lines)
+
+    def render_alignment(self, review_result: Dict) -> str:
+        """
+        Render PRD alignment findings into a markdown section.
+
+        Args:
+            review_result: Review JSON containing an 'alignment' key.
+
+        Returns:
+            Markdown string for the alignment section, or empty string if no alignment data.
+        """
+        alignment = review_result.get("alignment")
+        if not alignment:
+            return ""
+
+        lines = [
+            "## PRD Alignment Analysis",
+            "",
+            f"**Summary**: {alignment.get('summary', 'N/A')}",
+            "",
+        ]
+
+        # Missing from PRD
+        missing = alignment.get("missingFromPRD", [])
+        if missing:
+            lines.append("### Các mục PRD chưa được SRS đề cập")
+            lines.append("")
+            for item in missing:
+                sev = item.get("severity", "minor")
+                sev_icon = "🔴" if sev in ("critical", "major") else "🟡"
+                lines.append(f"- {sev_icon} [{sev}] {item.get('prdItem', '')}")
+                if item.get("evidence"):
+                    lines.append(f"  > {item['evidence']}")
+            lines.append("")
+
+        # Scope creep
+        creep = alignment.get("scopeCreep", [])
+        if creep:
+            lines.append("### Scope Creep — SRS vượt quá PRD")
+            lines.append("")
+            for item in creep:
+                sev = item.get("severity", "minor")
+                sev_icon = "🔴" if sev in ("critical", "major") else "🟡"
+                lines.append(f"- {sev_icon} [{sev}] {item.get('srsItem', '')}")
+                if item.get("evidence"):
+                    lines.append(f"  > {item['evidence']}")
+            lines.append("")
+
+        # Intent mismatch
+        mismatch = alignment.get("intentMismatch", [])
+        if mismatch:
+            lines.append("### Intent Mismatch — SRS hiểu sai PRD")
+            lines.append("")
+            for item in mismatch:
+                sev = item.get("severity", "minor")
+                sev_icon = "🔴" if sev in ("critical", "major") else "🟡"
+                lines.append(
+                    f"- {sev_icon} [{sev}] PRD: {item.get('prdIntent', '')} → "
+                    f"SRS: {item.get('srsInterpretation', '')}"
+                )
+            lines.append("")
+
+        # Sign-off gaps
+        gaps = alignment.get("signOffGaps", [])
+        if gaps:
+            lines.append("### Sign-off Gaps")
+            lines.append("")
+            for gap in gaps:
+                lines.append(f"- ⚠️ {gap}")
+            lines.append("")
+
+        return "\n".join(lines)
+
+
+# Issue type display labels (Vietnamese)
+ISSUE_TYPE_LABELS = {
+    "scope_drift": "Lệch scope",
+    "missing_logic": "Thiếu logic nghiệp vụ",
+    "missing_edge_case": "Thiếu edge case",
+    "ambiguous_wording": "Wording mơ hồ",
+    "missing_validation": "Thiếu validation / error handling",
+    "domain_safety": "Rủi ro domain / safety",
+}
+

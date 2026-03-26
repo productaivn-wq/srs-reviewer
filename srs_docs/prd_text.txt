@@ -1,0 +1,235 @@
+Link: PRD - AI for healthcare - v2.docx
+Product Requirements Document (PRD) 
+AI tra cứu sức khỏe & y tế chuyên sâu
+Document Information
+1. Executive Summary
+Tại Việt Nam, phần lớn người dân phải đưa ra quyết định sức khỏe trong điều kiện thiếu thông tin đáng tin cậy: không hiểu chỉ số xét nghiệm, không biết mức độ nguy hiểm của triệu chứng và thường bị dẫn dắt bởi nội dung sai lệch trên Google, TikTok hoặc lời khuyên không dựa trên chuyên môn. Điều này tạo ra một môi trường thông tin nhiễu loạn, khiến nhiều người tự chẩn đoán sai, trì hoãn điều trị hoặc đi khám sai chuyên khoa — dẫn đến chi phí xã hội lớn và lo lắng kéo dài cho người dân. Đây là khoảng trống quan trọng cần được giải quyết bằng một giải pháp sức khỏe số an toàn, chính xác và phù hợp với ngữ cảnh Việt Nam.
+AI tra cứu sức khỏe & y tế chuyên sâu được phát triển để trở thành lớp trí tuệ trung tâm trong toàn bộ hành trình sức khỏe của người Việt — một “Health Operating System” giúp người dùng hiểu đúng về cơ thể mình, biết phải làm gì tại thời điểm cần thiết và duy trì một lối sống khỏe mạnh lâu dài. Sản phẩm không thay thế bác sĩ hay đưa ra chẩn đoán mà tập trung giảm hoang mang, chuẩn hóa tri thức y khoa và dẫn hướng người dùng qua những quyết định thiết thực mỗi ngày.
+AI tra cứu sức khỏe & y tế chuyên sâu cung cấp khả năng:
+Giải thích triệu chứng và xét nghiệm bằng ngôn ngữ đơn giản, cảnh báo (triage) theo chuẩn an toàn để đưa ra hướng dẫn hành động rõ ràng
+Tích hợp dữ liệu từ HealthKit/Health Connect và hồ sơ khám (khi người dùng cho phép) để tạo dòng thời gian sức khỏe liền mạch, tự động nhận diện xu hướng và cảnh báo bất thường
+Đồng thời đồng hành dài hạn thông qua gợi ý thói quen sống, thói quen vi mô (micro-habits), báo cáo tuần/tháng, đề xuất tầm soát hoặc vaccine dựa trên tuổi và yếu tố nguy cơ. 
+Hỗ trợ thực thi tác vụ sức khỏe chủ động như đặt lịch khám/xét nghiệm/tiêm chủng, tạo nhắc nhở uống thuốc & theo dõi triệu chứng, và tự động chuẩn bị checklist trước khám.
+Trong tương lai, AI có thể hỗ trợ phân tích hình ảnh mang tính tham khảo (ví dụ: da, vết thương nhẹ) để điều hướng mức độ ưu tiên, nhưng vẫn trong phạm vi không chẩn đoán.
+Cách tiếp cận này tạo nên một vòng lặp giá trị bền vững: người dùng tra cứu → hiểu rõ → hành động → được theo dõi → nhận insight cá nhân hóa → tiếp tục quay lại. Đây là cơ chế then chốt tạo tần suất sử dụng cao và giữ chân người dùng trong hệ sinh thái V-App.
+AI tra cứu sức khỏe & y tế chuyên sâu không chỉ là một tính năng AI, mà là trung tâm trí tuệ kết nối mọi điểm chạm sức khỏe — từ triệu chứng, xét nghiệm, hồ sơ khám đến giấc ngủ, vận động và phòng ngừa — trong một hệ thống minh bạch, an toàn và tuân thủ. Tầm nhìn dài hạn của sản phẩm là xây dựng nền tảng Health OS đầu tiên cho người Việt: nơi mỗi cá nhân có thể hiểu, theo dõi và chăm sóc sức khỏe của mình một cách mạch lạc, chủ động và đáng tin cậy.
+2 Problem Statement
+2.1 Problem Statement
+Người dùng tại Việt Nam hiện đối mặt với ba nhóm vấn đề cốt lõi khi đưa ra quyết định sức khỏe hằng ngày:
+(1) Thiếu hệ thống theo dõi và quản lý sức khỏe dài hạn.
+Dữ liệu sức khỏe từ thiết bị đeo, ứng dụng, xét nghiệm và hồ sơ khám thường tồn tại rời rạc. Người dùng không thể nhìn thấy xu hướng sức khỏe của bản thân, khó duy trì thói quen lành mạnh và thiếu công cụ hỗ trợ phòng ngừa chủ động. Hầu hết bệnh viện và nền tảng số vẫn tập trung mạnh vào giai đoạn “trong khám”, nhưng lại thiếu các điểm chạm mạnh ở trước khám (nhận diện vấn đề, hiểu triệu chứng, chuẩn bị khám) và sau khám (theo dõi hồi phục, duy trì thói quen, theo dõi chỉ số).
+(2) Thiếu sự rõ ràng trong thông tin y tế.
+ Thông tin về triệu chứng, xét nghiệm và chỉ số sinh học đang bị phân tán trên nhiều nguồn khác nhau và phần lớn không cá nhân hóa. Người dùng không có công cụ đáng tin cậy giúp họ hiểu tình trạng của mình một cách đơn giản, đúng chuẩn và theo bối cảnh riêng của họ.
+(3) Thiếu hướng dẫn hành động cụ thể và an toàn.
+ Nhiều người không biết khi nào cần theo dõi tại nhà, khi nào cần đi khám hay khám chuyên khoa nào. Sự thiếu rõ ràng này dẫn đến tâm lý hoang mang, hành động cảm tính hoặc trì hoãn chăm sóc — những yếu tố có thể ảnh hưởng đến chất lượng chăm sóc và trải nghiệm của người dùng.
+Trên thị trường, chưa có giải pháp nào cung cấp một trải nghiệm sức khỏe liền mạch – cá nhân hóa – đáng tin cậy, kết nối xuyên suốt hành trình sức khỏe từ “hiểu đúng” → “hành động đúng” → “theo dõi liên tục”.  Chính sự thiếu hụt một hệ thống tập trung — nơi người dùng có thể hiểu, hành động và theo dõi sức khỏe của mình một cách rõ ràng và an toàn — tạo ra khoảng trống lớn mà AI tra cứu sức khỏe & y tế chuyên sâu cần giải quyết.
+2.2 Customer Evidence
+(1) Nhu cầu tra cứu sức khỏe tại Việt Nam tăng mạnh.
+Các từ khóa như “đau đầu”, “ho lâu”, “sốt trẻ em”, “xét nghiệm máu” liên tục đứng top truy vấn sức khỏe trên Google Trends Việt Nam giai đoạn 2023–2025, cho thấy nhu cầu tự tra cứu tăng đều hằng năm.
+Nguồn: Google Trends VN 2023–2025.
+(2) Mạng xã hội chứa nhiều nội dung sức khỏe thiếu kiểm chứng.
+Các tổng quan nghiên cứu ghi nhận tỷ lệ misinformation y tế cao trên các nền tảng lớn như Facebook, YouTube, TikTok, đặc biệt trong chủ đề vaccine và bệnh mạn tính.
+Nguồn: Systematic Review về health misinformation (PMC).
+ Tại Việt Nam, TikTok đã từng phải gỡ nhiều video “tự chẩn đoán” sai lệch.
+ Nguồn: Báo cáo quản trị nội dung TikTok VN 2024.
+(3) Thuốc giả và TPCN quảng cáo sai công dụng tràn lan.
+ Bộ Y tế ghi nhận mỗi năm có hàng trăm vụ thuốc giả/kém chất lượng; Cục ATTP xử phạt hơn 400 trường hợp quảng cáo TPCN như thuốc chữa bệnh (2023–2025).
+ Nguồn: Bộ Y tế (Cục Quản lý Dược)
+(4) Bệnh mạn tính chiếm tỷ lệ tử vong rất cao tại Việt Nam.
+ Các bệnh không lây nhiễm (tim mạch, đái tháo đường, ung thư…) chiếm khoảng 70–80% tử vong tại Việt Nam, cho thấy nhu cầu lớn về theo dõi chỉ số, xét nghiệm và cảnh báo xu hướng bất thường.
+ Nguồn: WHO STEPS Việt Nam 2021.
+(5) Việt Nam thiếu nguồn lực y tế, dẫn đến nhu cầu công cụ hỗ trợ định hướng ban đầu.
+ Việt Nam hiện có khoảng 12,5 bác sĩ / 10.000 dân, thấp hơn khuyến nghị của WHO và thấp hơn nhiều nước OECD.
+ Nguồn: Bộ Y tế / Vietnamnet 2023.
+ → Người dân cần một công cụ hỗ trợ triage và hướng dẫn trước khi gặp bác sĩ.
+(6) Xu hướng chăm sóc sức khỏe chủ động và wellness tăng nhanh.
+ 70–80% Gen Z và Millennials Việt Nam ưu tiên phòng bệnh, giấc ngủ, vận động và giảm stress; tỷ lệ dùng wearable tăng 30–40%/năm.
+ Nguồn: Nielsen, Q&Me, YouGov VN 2024.
+(7) AI health quốc tế chưa phù hợp bối cảnh Việt Nam.
+Các mô hình AI tổng quát như OpenAI ChatGPT, Anthropic Claude hay Google Google Gemini không đủ chính xác cho y tế do không dựa trên hướng dẫn lâm sàng và dễ đưa ra khuyến nghị sai, nên mới xuất hiện các mô hình chuyên sâu như ChatGPT Health, Claude Health và Google Health AI. Tuy nhiên, các mô hình này không dựa trên hướng dẫn y khoa Việt Nam, không gợi ý chuyên khoa/cơ sở khám nội địa và không tích hợp dữ liệu khám – xét nghiệm của người Việt.
+Xem chi tiết benchmark tại tài liệu sau. 
+→ Còn nhiều khoảng trống để xây dựng AI Health OS phù hợp thị trường Việt Nam.
+3 Target customers
+3.1. Primary Persona
+3.2 Customer Journey
+Vòng đời trải nghiệm của người dùng khi giải quyết một vấn đề sức khỏe trên sản phẩm.
+Phạm vi:
+ Tập trung vào hành trình từ lúc người dùng có câu hỏi/triệu chứng → hiểu vấn đề → nhận hướng dẫn → hành động → theo dõi → duy trì.
+3.2.1. Giai đoạn 1: Khởi phát nhu cầu & Đặt câu hỏi sức khỏe
+Hành động:
+ Người dùng xuất hiện triệu chứng (đau đầu, ho, mệt, đau bụng…) hoặc nhận kết quả xét nghiệm bất thường → mở V-App và truy cập AI tra cứu sức khỏe & y tế chuyên sâu.
+Tương tác với công cụ:
+Nhập câu hỏi (text/voice) hoặc chụp ảnh hồ sơ xét nghiệm.
+Cung cấp ngữ cảnh ban đầu: tuổi, giới tính, bệnh nền (nếu đã có trong hồ sơ).
+Hệ thống nhận diện đúng loại thông tin (triệu chứng, xét nghiệm, thuốc, vaccine…).
+Kết quả:
+Người dùng thấy rằng họ đang được “dẫn đường”: hệ thống hiểu đúng câu hỏi, phân loại chính xác vấn đề.
+Tạo Health Session ID để theo dõi toàn bộ hành trình. 
+3.2.2. Giai đoạn 2: Thu thập thông tin & Đánh giá sơ bộ 
+Hành động:
+ Người dùng trả lời một số câu hỏi follow-up liên quan tới mức độ triệu chứng và rủi ro.
+Tương tác với công cụ:
+AI hỏi 3–7 câu follow-up (ví dụ: thời gian triệu chứng, mức độ đau, có sốt không, có khó thở không…).
+Hệ thống phân loại dấu hiệu nguy hiểm (red flags).
+Dựa trên bộ tiêu chí y tế chuẩn → phân loại mức độ:
+Theo dõi tại nhà
+Cần khám sớm
+Cần cấp cứu
+Kết quả:
+Người dùng biết mức độ nghiêm trọng trong trường hợp của mình (không phải thông tin chung chung).
+Lo lắng giảm đi; có định hướng rõ ràng cho bước tiếp theo.
+3.2.3. Giai đoạn 3: Giải thích – Hiểu đúng 
+Hành động:
+ Người dùng xem phần giải thích của AI về triệu chứng/chỉ số xét nghiệm/bệnh lý.
+Tương tác với công cụ:
+AI cung cấp giải thích y tế dễ hiểu:
+Định nghĩa vấn đề
+Nguyên nhân phổ biến
+Yếu tố nguy cơ
+Những điều không phải lo ngay
+Với xét nghiệm:
+So sánh với ngưỡng bình thường
+Giải thích sai lệch nhẹ/vừa/mạnh
+Những yếu tố làm kết quả sai lệch
+Người dùng có thể hỏi thêm hoặc yêu cầu giải thích theo cách “dễ hiểu hơn”.
+Kết quả:
+Người dùng hiểu được bản chất vấn đề và không còn hoang mang.
+Không đưa ra chẩn đoán—tuân thủ guardrails.
+3.2.4. Giai đoạn 4: Hướng dẫn hành động 
+Hành động:
+ Người dùng xem hướng dẫn hành động cụ thể phù hợp với mức độ rủi ro cá nhân.
+Tương tác với công cụ:
+Nhận kế hoạch hành động cá nhân hóa:
+Nếu theo dõi nhà: checklist theo dõi 24–48h
+Nếu nên khám: gợi ý chuyên khoa + cơ sở khám gần nhất
+Nếu có nguy cơ cao: khuyến cáo đi cấp cứu
+Gợi ý cách chăm sóc tạm thời: uống nước, nghỉ ngơi, dinh dưỡng…
+Checklist trước khi đi khám:
+Mang hồ sơ gì
+Câu hỏi nên hỏi bác sĩ
+Có thể lưu kế hoạch vào Calendar hoặc tạo reminder.
+Kết quả:
+Người dùng biết chính xác phải làm gì tiếp thay vì tự phỏng đoán.
+Tạo “Health Action Snapshot” cho phiên đó.
+3.2.5. Giai đoạn 5: Theo dõi & Đồng hành dài hạn
+Hành động:
+ Người dùng quay lại kiểm tra triệu chứng hoặc được AI chủ động follow-up.
+Tương tác với công cụ:
+AI follow-up sau 24–48h (với case phù hợp) để hỏi:
+Triệu chứng cải thiện hay xấu đi
+Có dấu hiệu bất thường xuất hiện không
+Hệ thống gợi ý tiếp hành động nếu tình trạng thay đổi.
+Nếu người dùng đã upload hồ sơ khám → AI tóm tắt kết quả và cập nhật insight vào timeline.
+Tích hợp HealthKit/Health Connect để phân tích giấc ngủ, vận động, nhịp tim.
+Kết quả:
+User cảm nhận mình được đồng hành, không bị bỏ rơi sau 1 phiên tư vấn.
+Dữ liệu tích lũy → báo cáo sức khỏe tuần/tháng → gợi ý cải thiện lối sống.
+4 Solution overview
+4.1 Product vision
+AI tra cứu sức khỏe & y tế chuyên sâu là lớp trí tuệ sức khỏe giúp người Việt hiểu đúng cơ thể mình, biết phải làm gì vào đúng thời điểm và xây dựng lối sống lành mạnh dài hạn. Sản phẩm chuẩn hóa tri thức y khoa, phân tích triệu chứng – chỉ số theo bối cảnh cá nhân và đồng hành liên tục qua theo dõi, cảnh báo, báo cáo và coaching. Đây là Health OS an toàn, đáng tin cậy và tuân thủ, hỗ trợ người dùng nhưng không thay thế bác sĩ.
+4.1 Key Benefits (Customer Value)
+ Hiểu đúng thay vì hoang mang
+Giải thích triệu chứng & xét nghiệm bằng ngôn ngữ đời thường.
+Nội dung y tế được chuẩn hóa, đúng nguồn, dễ hiểu.
+Giảm nhu cầu tự suy đoán và sợ hãi vì thông tin mâu thuẫn.
+Biết chính xác nên làm gì tiếp theo
+Phân loại mức độ an toàn – theo dõi – nên đi khám – cảnh báo nguy hiểm.
+Gợi ý chuyên khoa phù hợp, cơ sở gần nhất và checklist chuẩn bị trước khám.
+Hướng dẫn hành động ngắn gọn, rõ ràng, không mơ hồ.
+Được cá nhân hóa theo từng trường hợp
+Phân tích theo tuổi, giới tính, bệnh nền, hành vi, dữ liệu sức khỏe tích hợp.
+Giải thích chỉ số & triệu chứng theo bối cảnh của từng user, không đưa thông tin chung chung trên Google. 
+Nhận follow-up sau 24–48h tùy mức độ.
+ Đồng hành dài hạn để sống khỏe hơn mỗi ngày
+Theo dõi triệu chứng, chỉ số, kết quả khám.
+Báo cáo tuần/tháng + highlight bất thường.
+Gợi ý ăn uống, giấc ngủ, vận động phù hợp.
+Tích hợp HealthKit/Health Connect để phân tích sâu giấc ngủ, vận động, nhịp tim.
+An toàn tuyệt đối & minh bạch
+Không chẩn đoán, không kê đơn, không đưa phác đồ điều trị, không được hướng dẫn thực hiện thủ thuật y tế xâm lấn hoặc thao tác kỹ thuật có thể gây tổn thương cơ thể.
+Guardrails y khoa hạn chế rủi ro thông tin sai.
+Người dùng toàn quyền quản lý dữ liệu: xem, tải xuống, xoá.
+Tuân thủ luật Việt Nam.
+5. User Stories & Requirements
+5.0 Định nghĩa tính cách và hành vi 
+AI tra cứu sức khỏe & y tế chuyên sâu đóng vai trò là trợ lý tra cứu sức khỏe con người phổ thông, cung cấp thông tin đơn giản – trung lập – an toàn – dễ hiểu. Giọng điệu trung lập, không gây hoang mang. Không chẩn đoán, không gợi ý điều trị, không đề xuất thuốc hoặc liều dùng. Chỉ cung cấp thông tin sức khỏe mô tả theo nguồn đáng tin cậy và hướng dẫn khi nào nên đi khám khi có dấu hiệu bất thường.
+ Dữ liệu sức khỏe chỉ được dùng trong phạm vi tra cứu sức khỏe, không dùng cho quảng cáo hoặc gợi ý dịch vụ ngoài phạm vi y tế.
+5.1 Tra cứu thông tin 
+5.2 Phân tích dữ liệu người dùng
+5.3 Khuyến nghị cá nhân hóa
+5.4  An toàn, quyền riêng tư và tích hợp
+5.5 Non-Function Requirement 
+Yêu cầu đáp ứng các tiêu chuẩn được đề cập trong tài liệu Quy chuẩn và quy trình phát hành sản phẩm AI, bao gồm:
+Tiêu chuẩn chất lượng AI
+Tiêu chuẩn bảo mật, an toàn tuân thủ 
+6. Success Metrics
+6.1 Customer Success Metrics
+Các chỉ số này sẽ giúp chúng tôi (Đội ngũ sản phẩm) đánh giá mức độ thành công của sản phẩm trong việc giải quyết vấn đề của người dùng và đạt được các mục tiêu kinh doanh.
+6.2 How We'll Measure
+Công cụ & quy trình đo lường:
+Đo lường dộ chính xác của câu trả lời 
+Đo lường CSAT bằng form thu thập hoặc bằng việc người dùng bấm like/unlike cho mỗi câu trả lời của AI. 
+Hệ thống guardrail monitoring để phát hiện trả lời nguy hiểm hoặc sai lệch
+Báo cáo hàng tuần/tháng từ Data Team
+Tần suất đo:
+Hàng tuần: độ chính xác của câu trả lời, tỷ lệ câu trả lời sai lệch, gây hại
+Hàng tháng: CSAT
+Hàng quý: báo cáo tổng hợp & đánh giá hiệu quả toàn diện
+7. Risks & Assumptions
+7.1 Key Assumptions We're Making
+Chấp nhận của người dùng: Người dùng Việt Nam sẵn sàng tin tưởng và sử dụng một giải pháp AI cho các vấn đề sức khỏe ban đầu.
+Nguồn dữ liệu y khoa: Có đủ nguồn dữ liệu y khoa chuẩn xác, đáng tin cậy và có thể truy cập để huấn luyện và vận hành AI, đặc biệt là dữ liệu dành riêng cho bối cảnh Việt Nam.
+Khả năng công nghệ AI: Công nghệ AI hiện tại đủ mạnh để xử lý các truy vấn y tế phức tạp, đưa ra phản hồi chính xác, an toàn và dễ hiểu.
+Khả năng tích hợp: Có thể tích hợp thành công với HealthKit/Health Connect và các hệ thống hồ sơ y tế điện tử (EMR) của các đối tác (trong tương lai) một cách an toàn và tuân thủ.
+Tuân thủ pháp lý: Sản phẩm tuân thủ đầy đủ các quy định pháp luật hiện hành về y tế, bảo mật dữ liệu và AI.
+7.2 Risks & Mitigation
+8. Timeline & Milestones
+8.1 Giai đoạn 1 — 30.04.2026
+ Mục tiêu
+Chuyển dữ liệu sức khỏe thô (triệu chứng, chỉ số, HealthKit) thành giải thích rõ ràng và hành động an toàn.
+ Phạm vi chính
+Tra cứu y khoa (triệu chứng, bệnh lý, dinh dưỡng, xét nghiệm, thuốc, vaccine, dịch bệnh đang diễn ra).
+Đồng bộ HealthKit/Health Connect/Health app & thiết bị đeo tay
+Giải thích dữ liệu cá nhân (giấc ngủ, vận động, nhịp tim,...).
+Giải thích kết quả xét nghiệm (máu, nước tiểu) từ ảnh chụp/file kết quả do BV/PK đưa
+ Giá trị khác biệt
+Biến số liệu thô thành insight dễ hiểu, không trùng với Apple Health/...
+Kết hợp triệu chứng – dữ liệu – thói quen để đưa ra hướng dẫn an toàn.
+Đặt nền móng cho cá nhân hóa sâu hơn ở giai đoạn sau.
+8.2 Giai đoạn 2 — 30.06.2026
+ Mục tiêu
+Từ “giải thích tình trạng” → sang điều hướng sức khỏe, giúp người dùng biết đi đâu – khám gì – dùng bảo hiểm nào – đặt lịch thế nào.
+ Phạm vi chính
+Symptom Checker: phân loại rủi ro & phát hiện red flags.
+Gợi ý chuyên khoa và cơ sở khám phù hợp theo triệu chứng.
+Gợi ý bảo hiểm ở mức thông tin (coverage theo chuyên khoa/dịch vụ).
+Follow-up nâng cao 48–72h theo diễn tiến triệu chứng.
+Gợi ý lối sống tối ưu hơn dựa trên dữ liệu tuần/tháng & nhịp sinh học.
+ Giá trị khác biệt
+Trở thành health navigation assistant, thay vì chỉ cung cấp insight.
+Người dùng đi đúng nơi, đúng thời điểm, với hiểu biết rõ ràng hơn về chi phí.
+Kết nối liền mạch triệu chứng – chuyên khoa – bảo hiểm – đặt lịch – theo dõi.
+8.3 Giai đoạn 3 — 08.08.2026
+ Mục tiêu
+Mở rộng từ phản ứng theo yêu cầu sang phân tích xu hướng và nhận diện hình ảnh mức cơ bản để hỗ trợ đánh giá ban đầu.
+ Phạm vi chính
+Dự báo xu hướng sức khỏe dựa trên dữ liệu dài hạn (sleep → stress  → năng lượng → nhịp tim → vận động. → nhịp tim → vận động.).
+Phân tích hình ảnh mức cơ bản (da, vết thương nhẹ) hỗ trợ quyết định ban đầu.
+ Giá trị khác biệt
+Tăng khả năng chủ động dự báo, không chỉ dựa vào câu hỏi người dùng.
+Giúp người dùng hiểu xu hướng sức khỏe theo thời gian, từ đó điều chỉnh thói quen.
+Chuẩn bị nền tảng cho self-triage và điều hướng dựa trên hình ảnh ở các phiên bản nâng cao.
+8.4 Giai đoạn 4 — Dài hạn (08.2026+)
+ Mục tiêu
+Tiến tới một AI chuyên sâu Sức khoẻ y tế toàn diện, chủ động dự báo và phục vụ đa điểm chạm.
+Phạm vi chính
+Kết nối EHR/EMR.
+Agentic automation nâng cao (booking tự động, theo dõi tự động, cảnh báo chủ động).
+ Giá trị khác biệt
+Từ phản hồi theo yêu cầu → sang chủ động dự báo & chăm sóc.
+Tích hợp dữ liệu – dịch vụ – hình ảnh thành một Health OS thống nhất.
+Xây nền cho trải nghiệm trợ lý sức khỏe thực sự, vượt xa app theo dõi chỉ số.
+9. Stakeholders & Team
+9.1. Internal Stakeholder
+9.2. External stakeholder
+9.3. Delivery Team 

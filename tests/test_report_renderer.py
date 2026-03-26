@@ -131,3 +131,83 @@ class TestReportRenderer:
         renderer = ReportRenderer()
         report = renderer.render(SAMPLE_RESULT, srs_filename="test.md")
         assert "Needs Revision" in report
+
+
+class TestRenderAnnotated:
+    """Tests for the annotated SRS output."""
+
+    def test_inserts_comments_at_matching_evidence(self):
+        """Verify inline PM comments appear where evidence matches."""
+        renderer = ReportRenderer()
+        original_srs = "# Purpose\nThe system provides health info.\n\n# Requirements\nFR-001: Login"
+        result = {
+            "sections": [{
+                "title": "D1",
+                "score": 70,
+                "issues": [{
+                    "issue": "Ambiguous purpose",
+                    "severity": "major",
+                    "issueType": "ambiguous_wording",
+                    "evidence": ["The system provides health info."],
+                }],
+            }],
+        }
+        annotated = renderer.render_annotated(result, original_srs)
+        assert "[PM COMMENT — Major]" in annotated
+        assert "Wording mơ hồ" in annotated
+        assert "The system provides health info." in annotated
+
+    def test_unmatched_issues_appended(self):
+        """Verify unmatched issues are appended at the end."""
+        renderer = ReportRenderer()
+        original_srs = "# Simple SRS\nJust text."
+        result = {
+            "sections": [{
+                "title": "D3",
+                "score": 60,
+                "issues": [{
+                    "issue": "Missing edge case",
+                    "severity": "critical",
+                    "issueType": "missing_edge_case",
+                    "evidence": ["Something not in the SRS at all"],
+                }],
+            }],
+        }
+        annotated = renderer.render_annotated(result, original_srs)
+        assert "chưa gắn vào vị trí cụ thể" in annotated
+        assert "Missing edge case" in annotated
+
+    def test_error_result_returns_original(self):
+        """Error results should return original SRS unchanged."""
+        renderer = ReportRenderer()
+        original = "# My SRS"
+        result = {"error": "API failed"}
+        assert renderer.render_annotated(result, original) == original
+
+
+class TestRenderAlignment:
+    """Tests for PRD alignment rendering."""
+
+    def test_renders_alignment_section(self):
+        renderer = ReportRenderer()
+        result = {
+            "alignment": {
+                "summary": "SRS mostly aligned with PRD",
+                "missingFromPRD": [
+                    {"prdItem": "Feature X", "evidence": "PRD says X", "severity": "critical"}
+                ],
+                "scopeCreep": [],
+                "intentMismatch": [],
+                "signOffGaps": ["Missing UAT criteria"],
+            }
+        }
+        output = renderer.render_alignment(result)
+        assert "PRD Alignment Analysis" in output
+        assert "Feature X" in output
+        assert "Missing UAT criteria" in output
+
+    def test_no_alignment_returns_empty(self):
+        renderer = ReportRenderer()
+        output = renderer.render_alignment({"totalScore": 80})
+        assert output == ""
+

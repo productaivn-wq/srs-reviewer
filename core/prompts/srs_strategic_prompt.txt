@@ -98,6 +98,10 @@ CRITICAL RULE:
 - Each dimension MUST have AT LEAST 2 issues with evidence.
 - Review must be in Vietnamese. Output only JSON.
 
+ISSUE TYPE RULE:
+- Every issue MUST include an "issueType" field with one of these values:
+  scope_drift | missing_logic | missing_edge_case | ambiguous_wording | missing_validation | domain_safety
+
 OUTPUT JSON SCHEMA:
 Generate a valid JSON object matching this structure. Replace placeholders with actual evaluated data:
 {
@@ -128,6 +132,7 @@ Generate a valid JSON object matching this structure. Replace placeholders with 
         {
           "issue": "<issue description>",
           "severity": "critical|major|minor|nice to have",
+          "issueType": "scope_drift|missing_logic|missing_edge_case|ambiguous_wording|missing_validation|domain_safety",
           "evidence": ["<verbatim quote or section reference>"]
         }
       ],

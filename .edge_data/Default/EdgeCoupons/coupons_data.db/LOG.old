@@ -1,0 +1,5 @@
+2026/03/26-18:09:42.968 45c8 Creating DB C:\Users\thanb\.gemini\projects\SRSReviewer\.edge_data\Default\EdgeCoupons/coupons_data.db since it was missing.
+2026/03/26-18:09:42.986 45c8 Reusing MANIFEST C:\Users\thanb\.gemini\projects\SRSReviewer\.edge_data\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/03/26-18:09:43.285 50dc Level-0 table #5: started
+2026/03/26-18:09:43.291 50dc Level-0 table #5: 681825 bytes OK
+2026/03/26-18:09:43.294 50dc Delete type=0 #3

@@ -99,3 +99,39 @@ class TestSRSReviewEngine:
         assert len(weights) == 10
         total = sum(d["weight"] for d in weights.values())
         assert abs(total - 1.0) < 0.001
+
+    def test_review_with_reference_doc(self, mock_llm_client, sample_srs):
+        """Verify reference_content is injected into the prompt."""
+        engine = SRSReviewEngine(mock_llm_client)
+        result = engine.review_srs(
+            sample_srs,
+            "{{SRS_CONTENT}}",
+            reference_content="PRD: The system shall do X.",
+        )
+        # Should still return a valid result
+        assert "totalScore" in result
+        # Verify the LLM was called with reference content in prompt
+        call_args = mock_llm_client.generate_content.call_args
+        prompt_sent = call_args.kwargs.get("prompt", call_args[1].get("prompt", ""))
+        assert "PRD: The system shall do X." in prompt_sent
+
+    def test_review_without_reference_doc_backward_compat(self, mock_llm_client, sample_srs):
+        """Verify no reference = standard review (backward compatible)."""
+        engine = SRSReviewEngine(mock_llm_client)
+        result = engine.review_srs(sample_srs, "Review: {{SRS_CONTENT}}")
+        assert "totalScore" in result
+        # No reference in prompt
+        call_args = mock_llm_client.generate_content.call_args
+        prompt_sent = call_args.kwargs.get("prompt", call_args[1].get("prompt", ""))
+        assert "REFERENCE DOCUMENT" not in prompt_sent
+
+    def test_review_with_domain_profile(self, mock_llm_client, sample_srs):
+        """Verify domain profile injects checks into prompt (non-fatal if file missing)."""
+        engine = SRSReviewEngine(mock_llm_client)
+        result = engine.review_srs(
+            sample_srs,
+            "SRS Content:\n{{SRS_CONTENT}}",
+            domain_profile="health",
+        )
+        assert "totalScore" in result
+

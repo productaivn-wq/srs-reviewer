@@ -1,0 +1,6 @@
+2026/03/26-18:10:58.298 2928 Reusing MANIFEST C:\Users\thanb\.gemini\projects\SRSReviewer\.edge_data\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/03/26-18:10:58.302 2928 Recovering log #4
+2026/03/26-18:10:58.303 2928 Reusing old log C:\Users\thanb\.gemini\projects\SRSReviewer\.edge_data\Default\EdgeCoupons/coupons_data.db/000004.log 
+2026/03/26-18:10:58.365 5afc Level-0 table #8: started
+2026/03/26-18:10:58.371 5afc Level-0 table #8: 681928 bytes OK
+2026/03/26-18:10:58.373 5afc Delete type=0 #4

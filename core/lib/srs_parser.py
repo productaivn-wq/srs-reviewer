@@ -63,3 +63,30 @@ class SRSParser:
     
     def get_section_list(self) -> List[str]:
         return list(self.sections.keys())
+
+
+class ReferenceDocParser:
+    """Load and combine PRD/US/AC reference documents for alignment checking."""
+
+    def __init__(self, paths: List[str]):
+        """
+        Args:
+            paths: List of file paths to reference documents (PRD, US, AC).
+        """
+        self.paths = [Path(p) for p in paths]
+        self.content = self._load_all()
+
+    def _load_all(self) -> str:
+        """Load and concatenate all reference documents."""
+        parts: List[str] = []
+        for path in self.paths:
+            if not path.exists():
+                raise FileNotFoundError(f"Reference doc not found: {path}")
+            text = path.read_text(encoding="utf-8")
+            parts.append(f"--- {path.name} ---\n{text}")
+        return "\n\n".join(parts)
+
+    @property
+    def document_names(self) -> List[str]:
+        """Return basenames of loaded reference documents."""
+        return [p.name for p in self.paths]

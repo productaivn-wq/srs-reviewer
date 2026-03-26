@@ -1,0 +1,184 @@
+SCORING INSTRUCTIONS WITH PRD ALIGNMENT:
+Evaluate the SRS on a scale of 0-100 based on weighted dimensions with defined subcriteria.
+Each subcriteria MUST include a score, comment, deductionReason, and verbatim evidence from the SRS.
+
+ALIGNMENT INSTRUCTIONS:
+You are provided with BOTH the SRS and a REFERENCE DOCUMENT (PRD / User Story / Acceptance Criteria).
+In addition to the standard 10-dimension scoring, you MUST perform alignment checks:
+
+1. MISSING FROM PRD: List items in the PRD/US/AC that are NOT covered in the SRS.
+2. SCOPE CREEP: List items in the SRS that go BEYOND what the PRD/US/AC specifies (unless clearly labeled as "optional suggestion").
+3. INTENT MISMATCH: List items where the SRS misinterprets or distorts the meaning of the PRD/US/AC.
+4. SIGN-OFF GAPS: List conditions required for PM sign-off that are not addressed in the SRS.
+
+DIMENSIONS & SUBCRITERIA:
+
+D1 — Purpose & Scope Clarity (10%):
+  D1.1 System purpose statement — clear 1-2 sentence purpose
+  D1.2 Scope boundaries — explicit in-scope / out-of-scope
+  D1.3 Business context & motivation
+  D1.4 Definitions & acronyms glossary
+
+D2 — Stakeholder & User Requirements (10%):
+  D2.1 Stakeholder identification by role
+  D2.2 User characteristics & profiles
+  D2.3 User needs mapped to stakeholders
+  D2.4 Assumptions & dependencies
+
+D3 — Functional Requirements (15%):
+  D3.1 Requirement atomicity — one FR per item
+  D3.2 Testability — measurable criteria per FR
+  D3.3 Unique IDs & traceability tags (FR-001, etc.)
+  D3.4 Priority classification (MoSCoW)
+  D3.5 Input/output specification
+  D3.6 MECE — Mutual Exclusivity: flag overlapping/contradicting FRs
+  D3.7 MECE — Collective Exhaustiveness: flag implied features without explicit FRs
+
+D4 — Non-Functional Requirements (12%):
+  D4.1 Performance metrics (latency, throughput) — must be quantified
+  D4.2 Security requirements (auth, encryption, RBAC)
+  D4.3 Reliability & availability (uptime SLA percentage)
+  D4.4 Scalability constraints (load limits, growth)
+  D4.5 Compliance & regulatory standards
+
+D5 — System Architecture & Constraints (10%):
+  D5.1 System interfaces (APIs, protocols, contracts)
+  D5.2 External system dependencies
+  D5.3 Technology constraints (platform, language, framework)
+  D5.4 Deployment topology
+
+D6 — Data Requirements (8%):
+  D6.1 Data entities & relationships (ER diagram or entity list)
+  D6.2 Data flows (input → processing → output)
+  D6.3 Data retention & lifecycle policy
+  D6.4 Data privacy & classification (PII/PHI handling)
+
+D7 — Use Cases & Scenarios (12%):
+  D7.1 Actor identification (primary + secondary)
+  D7.2 Main flow completeness (step-by-step happy path)
+  D7.3 Alternative & exception flows
+  D7.4 Pre/post conditions per UC
+  D7.5 UC-to-FR traceability (each UC maps to FR IDs)
+  D7.6 Orphaned UC detection: flag UCs not linked to any FR or business goal
+  D7.7 Business workflow coverage: key processes modeled as UC sequences
+  D7.8 State transitions: lifecycle/state machines documented where applicable
+
+D8 — Acceptance Criteria & Testing (10%):
+  D8.1 Measurable acceptance criteria (SMART)
+  D8.2 Test strategy/plan reference (E2E, integration, UAT)
+  D8.3 Test data requirements
+  D8.4 Sign-off process & approval roles
+
+D9 — Traceability & Consistency (8%):
+  D9.1 Requirements Traceability Matrix (RTM)
+  D9.2 Internal consistency — no contradictions
+  D9.3 Version control & change history
+  D9.4 Cross-reference integrity
+  D9.5 Bidirectional completeness: every FR has ≥1 UC, every UC has ≥1 FR, every BRD has ≥1 FR
+  D9.6 Workflow-to-UC mapping: business processes decomposed into traceable UCs
+
+D10 — Document Quality & Standards (5%):
+  D10.1 IEEE 830 / ISO 29148 structure compliance
+  D10.2 Writing quality — precise language, no weasel words
+  D10.3 Formatting consistency
+
+EVIDENCE RULE:
+- Every subcriteria MUST include evidence: a verbatim quote from the SRS.
+- If content is missing, set evidence to "Không tìm thấy nội dung liên quan" and score accordingly (0-20).
+
+CALCULATION:
+- Score each subcriteria (0-100) with evidence.
+- Dimension score = average of its subcriteria scores.
+- Final Score = Round(weighted average of all dimension scores).
+
+CRITICAL RULE:
+- If Final Score < 85, the Overall Status MUST be "Needs Revision".
+- If Final Score >= 85, the Overall Status is "Ready".
+- Each dimension MUST have AT LEAST 2 issues with evidence.
+- Review must be in Vietnamese. Output only JSON.
+
+ISSUE TYPE RULE:
+- Every issue MUST include an "issueType" field with one of these values:
+  scope_drift | missing_logic | missing_edge_case | ambiguous_wording | missing_validation | domain_safety
+
+OUTPUT JSON SCHEMA:
+Generate a valid JSON object matching this structure:
+{
+  "totalScore": <number 0-100>,
+  "verdict": "<Vietnamese verdict string>",
+  "alignment": {
+    "summary": "<1-2 sentence summary of PRD alignment level>",
+    "missingFromPRD": [
+      {
+        "prdItem": "<what PRD/US/AC says>",
+        "evidence": "<verbatim quote from PRD>",
+        "severity": "critical|major|minor"
+      }
+    ],
+    "scopeCreep": [
+      {
+        "srsItem": "<what SRS adds beyond PRD>",
+        "evidence": "<verbatim quote from SRS>",
+        "severity": "critical|major|minor"
+      }
+    ],
+    "intentMismatch": [
+      {
+        "prdIntent": "<original intent from PRD>",
+        "srsInterpretation": "<how SRS interpreted it>",
+        "severity": "critical|major|minor"
+      }
+    ],
+    "signOffGaps": ["<condition not covered>"]
+  },
+  "sections": [
+    {
+      "title": "D1 — Mục đích & Phạm vi",
+      "score": <number 0-100>,
+      "status": "pass|fail",
+      "subcriteria": [
+        {
+          "id": "D1.1",
+          "name": "<subcriteria name in Vietnamese>",
+          "score": <number 0-100>,
+          "comment": "<brief comment>",
+          "deductionReason": "<reason for deduction, empty if full score>",
+          "evidence": ["<verbatim quote from SRS>"]
+        }
+      ],
+      "praise": [
+        {
+          "praise": "<strength description>",
+          "evidence": ["<verbatim quote from SRS>"]
+        }
+      ],
+      "issues": [
+        {
+          "issue": "<issue description>",
+          "severity": "critical|major|minor|nice to have",
+          "issueType": "scope_drift|missing_logic|missing_edge_case|ambiguous_wording|missing_validation|domain_safety",
+          "evidence": ["<verbatim quote or section reference>"]
+        }
+      ],
+      "suggestions": ["<improvement suggestion>"]
+    }
+  ]
+}
+
+DIMENSION TITLE MAPPING (use exactly):
+- "D1 — Mục đích & Phạm vi"
+- "D2 — Bên liên quan & Yêu cầu người dùng"
+- "D3 — Yêu cầu chức năng"
+- "D4 — Yêu cầu phi chức năng"
+- "D5 — Kiến trúc hệ thống & Ràng buộc"
+- "D6 — Yêu cầu dữ liệu"
+- "D7 — Use Case & Kịch bản"
+- "D8 — Tiêu chí nghiệm thu & Kiểm thử"
+- "D9 — Truy xuất nguồn gốc & Tính nhất quán"
+- "D10 — Chất lượng tài liệu & Tiêu chuẩn"
+
+REFERENCE DOCUMENT (PRD / User Story / Acceptance Criteria):
+{{REFERENCE_CONTENT}}
+
+SRS Content:
+{{SRS_CONTENT}}
