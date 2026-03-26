@@ -8,20 +8,19 @@ import { ReviewHistory } from './components/ReviewHistory';
 import { callOpenRouter } from './services/openrouter';
 import { recalculateScore } from './utils/scoring';
 import { useHistory } from './hooks/useHistory';
-import { MODEL_OPTIONS, REVIEW_MODES } from './utils/constants';
+import { MODEL_OPTIONS } from './utils/constants';
 import type { ReviewResult } from './types/review';
 import './App.css';
 
 export default function App() {
   // Config state
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('srs_openrouter_key') ?? '');
-  const [mode, setMode] = useState('standard');
   const [model, setModel] = useState<string>(MODEL_OPTIONS[0].value);
   const [reviewer, setReviewer] = useState('SRS Review AI');
 
-  // Content state
-  const [srsContent, setSrsContent] = useState('');
+  // Content state — PRD first, then SRS
   const [prdContent, setPrdContent] = useState('');
+  const [srsContent, setSrsContent] = useState('');
 
   // Review state
   const [loading, setLoading] = useState(false);
@@ -36,9 +35,10 @@ export default function App() {
     localStorage.setItem('srs_openrouter_key', apiKey);
   }, [apiKey]);
 
-  const selectedMode = REVIEW_MODES.find(m => m.value === mode);
-  const needsPrd = selectedMode?.requiresPrd && prdContent.trim().length === 0;
-  const canReview = apiKey.trim().length > 0 && srsContent.trim().length > 0 && !needsPrd;
+  // Both documents are required
+  const canReview = apiKey.trim().length > 0
+    && srsContent.trim().length > 0
+    && prdContent.trim().length > 0;
 
   const handleReview = useCallback(async () => {
     if (!canReview || loading) return;
@@ -51,9 +51,9 @@ export default function App() {
       const reviewResult = await callOpenRouter({
         apiKey: apiKey.trim(),
         model,
-        mode,
+        mode: 'strategic',
         srsContent: srsContent.trim(),
-        prdContent: prdContent.trim() || undefined,
+        prdContent: prdContent.trim(),
       });
 
       // Validate & enrich
@@ -66,7 +66,7 @@ export default function App() {
       // Save to history
       addEntry({
         filename: 'SRS Review',
-        mode,
+        mode: 'strategic',
         model,
         totalScore: reviewResult.totalScore,
         verdict: reviewResult.verdict,
@@ -78,7 +78,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [canReview, loading, apiKey, model, mode, srsContent, prdContent, addEntry]);
+  }, [canReview, loading, apiKey, model, srsContent, prdContent, addEntry]);
 
   const handleLoadHistory = useCallback((historyResult: ReviewResult) => {
     setResult(historyResult);
@@ -89,9 +89,8 @@ export default function App() {
       <Hero />
 
       <ConfigPanel
-        apiKey={apiKey} mode={mode} model={model} reviewer={reviewer}
-        hasPrd={prdContent.trim().length > 0}
-        onApiKeyChange={setApiKey} onModeChange={setMode}
+        apiKey={apiKey} model={model} reviewer={reviewer}
+        onApiKeyChange={setApiKey}
         onModelChange={setModel} onReviewerChange={setReviewer}
       />
 
@@ -99,21 +98,20 @@ export default function App() {
         <h2>📄 Documents</h2>
         <div className="doc-inputs-row">
           <DocumentInput
-            id="srsContent"
-            title="SRS Document"
-            icon="📋"
-            content={srsContent}
-            onChange={setSrsContent}
-            placeholder={'Paste your SRS content here in Markdown format...\n\n# 1. Introduction\n## 1.1 Purpose\n...'}
-          />
-          <DocumentInput
             id="prdContent"
             title="PRD / Reference Document"
             icon="📑"
             content={prdContent}
             onChange={setPrdContent}
-            placeholder={'Paste your PRD, User Stories, or Acceptance Criteria here...\n\nUsed for alignment analysis.'}
-            optional
+            placeholder={'Upload your PRD, User Stories, or Acceptance Criteria...\n\nThis is the source of truth for alignment analysis.'}
+          />
+          <DocumentInput
+            id="srsContent"
+            title="SRS Document"
+            icon="📋"
+            content={srsContent}
+            onChange={setSrsContent}
+            placeholder={'Upload or paste your SRS content in Markdown format...\n\n# 1. Introduction\n## 1.1 Purpose\n...'}
           />
         </div>
       </section>
@@ -129,14 +127,14 @@ export default function App() {
       />
 
       {result && (
-        <ResultsSection result={result} reviewer={reviewer} mode={mode} />
+        <ResultsSection result={result} reviewer={reviewer} mode="strategic" />
       )}
 
       <ReviewHistory history={history} onLoad={handleLoadHistory} />
 
       <footer className="footer">
         <p>
-          SRS Reviewer — Powered by{' '}
+          SRS Reviewer v1.0.0 — Powered by{' '}
           <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">OpenRouter</a>
           {' '}· ISO/IEC/IEEE 29148
         </p>

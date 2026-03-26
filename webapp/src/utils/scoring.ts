@@ -20,51 +20,10 @@ export function recalculateScore(sections: Section[]): number {
 }
 
 /**
- * Build the review prompt with SRS content injected.
- * When prdContent is provided and mode is 'alignment', includes PRD alignment instructions.
+ * Build the full review prompt: strategic review + PRD alignment.
+ * Both SRS and PRD are always provided.
  */
-export function buildPrompt(srsContent: string, mode: string, prdContent?: string): string {
-  const hasAlignment = mode === 'alignment' && prdContent && prdContent.trim().length > 0;
-
-  const strategic = mode === 'strategic' ? `
-STRATEGIC CONSIDERATIONS:
-- Evaluate the product's alignment with broader technical and business strategies.
-- Does the system architecture support long-term maintainability and scalability?
-- Deeply scrutinize data modeling, API contracts, and integration constraints.
-- Assess whether NFRs are quantified with specific thresholds (latency, uptime SLA, etc.).
-- Check for hidden dependencies and vendor lock-in risks.
-- Evaluate completeness of error handling and edge case documentation.
-` : '';
-
-  const alignmentInstructions = hasAlignment ? `
-ALIGNMENT INSTRUCTIONS:
-You are provided with BOTH the SRS and a REFERENCE DOCUMENT (PRD / User Story / Acceptance Criteria).
-In addition to the standard 12-dimension scoring, you MUST perform alignment checks:
-
-1. MISSING FROM PRD: List items in the PRD/US/AC that are NOT covered in the SRS.
-2. SCOPE CREEP: List items in the SRS that go BEYOND what the PRD/US/AC specifies.
-3. INTENT MISMATCH: List items where the SRS misinterprets or distorts the meaning of the PRD/US/AC.
-4. SIGN-OFF GAPS: List conditions required for PM sign-off that are not addressed in the SRS.
-
-The JSON output MUST include an additional top-level "alignment" field:
-"alignment": {
-  "summary": "<overall alignment assessment>",
-  "missingFromPRD": [{"prdItem": "<what's missing>", "evidence": "<PRD quote>", "severity": "critical|major|minor"}],
-  "scopeCreep": [{"srsItem": "<what exceeds PRD>", "evidence": "<SRS quote>", "severity": "critical|major|minor"}],
-  "intentMismatch": [{"prdIntent": "<original intent>", "srsInterpretation": "<how SRS interpreted it>", "severity": "critical|major|minor"}],
-  "signOffGaps": ["<gap description>"]
-}
-` : '';
-
-  const prdSection = hasAlignment ? `
-
-REFERENCE DOCUMENT (PRD):
-${prdContent}
-
----
-
-` : '';
-
+export function buildPrompt(srsContent: string, _mode: string, prdContent?: string): string {
   return `SCORING INSTRUCTIONS:
 Evaluate the SRS on a scale of 0-100 based on these weighted dimensions:
 1. Purpose & Scope Clarity (8%)
@@ -79,7 +38,24 @@ Evaluate the SRS on a scale of 0-100 based on these weighted dimensions:
 10. Document Quality & Standards (5%)
 11. Requirements Engineering Process (5%)
 12. Requirement Quality Attributes (5%)
-${strategic}${alignmentInstructions}
+
+STRATEGIC CONSIDERATIONS:
+- Evaluate the product's alignment with broader technical and business strategies.
+- Does the system architecture support long-term maintainability and scalability?
+- Deeply scrutinize data modeling, API contracts, and integration constraints.
+- Assess whether NFRs are quantified with specific thresholds (latency, uptime SLA, etc.).
+- Check for hidden dependencies and vendor lock-in risks.
+- Evaluate completeness of error handling and edge case documentation.
+
+ALIGNMENT INSTRUCTIONS:
+You are provided with BOTH the SRS and a REFERENCE DOCUMENT (PRD / User Story / Acceptance Criteria).
+In addition to the standard 12-dimension scoring, you MUST perform alignment checks:
+
+1. MISSING FROM PRD: List items in the PRD/US/AC that are NOT covered in the SRS.
+2. SCOPE CREEP: List items in the SRS that go BEYOND what the PRD/US/AC specifies.
+3. INTENT MISMATCH: List items where the SRS misinterprets or distorts the meaning of the PRD/US/AC.
+4. SIGN-OFF GAPS: List conditions required for PM sign-off that are not addressed in the SRS.
+
 CALCULATION:
 - Assign a score (0-100) for each dimension.
 - Calculate weighted average.
@@ -93,10 +69,17 @@ CRITICAL RULE:
 - Review must be in Vietnamese. Output only JSON.
 
 OUTPUT JSON SCHEMA:
-Generate a valid JSON object matching this structure. Replace the bracketed placeholders with your actual evaluated data. DO NOT output the literal template:
+Generate a valid JSON object matching this structure:
 {
   "totalScore": <number 0-100>,
-  "verdict": "<Vietnamese verdict string>",${hasAlignment ? '\n  "alignment": { ... as described above ... },' : ''}
+  "verdict": "<Vietnamese verdict string>",
+  "alignment": {
+    "summary": "<overall alignment assessment>",
+    "missingFromPRD": [{"prdItem": "<what's missing>", "evidence": "<PRD quote>", "severity": "critical|major|minor"}],
+    "scopeCreep": [{"srsItem": "<what exceeds PRD>", "evidence": "<SRS quote>", "severity": "critical|major|minor"}],
+    "intentMismatch": [{"prdIntent": "<original intent>", "srsInterpretation": "<how SRS interpreted it>", "severity": "critical|major|minor"}],
+    "signOffGaps": ["<gap description>"]
+  },
   "sections": [
     {
       "title": "D1 — Mục đích & Phạm vi",
@@ -111,7 +94,12 @@ Generate a valid JSON object matching this structure. Replace the bracketed plac
 
 DIMENSION TITLE MAPPING (use exactly):
 ${DIMENSION_TITLES.map(t => `- "${t}"`).join('\n')}
-${prdSection}
+
+REFERENCE DOCUMENT (PRD):
+${prdContent ?? '(No PRD provided)'}
+
+---
+
 SRS Content:
 ${srsContent}`;
 }

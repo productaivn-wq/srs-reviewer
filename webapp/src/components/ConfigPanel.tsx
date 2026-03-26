@@ -1,25 +1,19 @@
-import { REVIEW_MODES, MODEL_OPTIONS } from '../utils/constants';
+import { MODEL_OPTIONS } from '../utils/constants';
 import './ConfigPanel.css';
 
 interface Props {
   apiKey: string;
-  mode: string;
   model: string;
   reviewer: string;
-  hasPrd: boolean;
   onApiKeyChange: (v: string) => void;
-  onModeChange: (v: string) => void;
   onModelChange: (v: string) => void;
   onReviewerChange: (v: string) => void;
 }
 
 export function ConfigPanel({
-  apiKey, mode, model, reviewer, hasPrd,
-  onApiKeyChange, onModeChange, onModelChange, onReviewerChange,
+  apiKey, model, reviewer,
+  onApiKeyChange, onModelChange, onReviewerChange,
 }: Props) {
-  const selectedMode = REVIEW_MODES.find(m => m.value === mode);
-  const needsPrd = selectedMode?.requiresPrd && !hasPrd;
-
   return (
     <section className="glass section-spacing" id="configPanel">
       <div className="config-grid">
@@ -33,24 +27,6 @@ export function ConfigPanel({
             value={apiKey}
             onChange={e => onApiKeyChange(e.target.value)}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="reviewMode">📋 Review Mode</label>
-          <select
-            id="reviewMode"
-            value={mode}
-            onChange={e => onModeChange(e.target.value)}
-          >
-            {REVIEW_MODES.map(m => (
-              <option key={m.value} value={m.value}>{m.label}</option>
-            ))}
-          </select>
-          {needsPrd && (
-            <small className="mode-hint">⚠️ Alignment mode requires a PRD document</small>
-          )}
-          {hasPrd && mode !== 'alignment' && (
-            <small className="mode-hint hint-info">💡 PRD uploaded — switch to Alignment mode for gap analysis</small>
-          )}
         </div>
         <div className="form-group">
           <label htmlFor="modelSelect">🤖 Model</label>
