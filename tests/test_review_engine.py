@@ -27,6 +27,8 @@ MOCK_LLM_RESPONSE = json.dumps({
         {"title": "D8 — Tiêu chí nghiệm thu", "score": 70, "issues": [{"issue": "o", "severity": "major"}, {"issue": "p", "severity": "minor"}], "praise": [], "suggestions": []},
         {"title": "D9 — Truy xuất nguồn gốc", "score": 65, "issues": [{"issue": "q", "severity": "critical"}, {"issue": "r", "severity": "minor"}], "praise": [], "suggestions": []},
         {"title": "D10 — Chất lượng tài liệu", "score": 90, "issues": [{"issue": "s", "severity": "nice to have"}, {"issue": "t", "severity": "nice to have"}], "praise": [], "suggestions": []},
+        {"title": "D11 — Quy trình kỹ thuật yêu cầu", "score": 60, "issues": [{"issue": "u", "severity": "major"}, {"issue": "v", "severity": "minor"}], "praise": [], "suggestions": []},
+        {"title": "D12 — Thuộc tính chất lượng yêu cầu", "score": 55, "issues": [{"issue": "w", "severity": "major"}, {"issue": "x", "severity": "minor"}], "praise": [], "suggestions": []},
     ],
 })
 
@@ -75,7 +77,7 @@ class TestSRSReviewEngine:
     def test_review_dimension_count(self, mock_llm_client, sample_srs):
         engine = SRSReviewEngine(mock_llm_client)
         result = engine.review_srs(sample_srs, "{{SRS_CONTENT}}")
-        assert result["dimensionCount"] == 10
+        assert result["dimensionCount"] == 12
 
     def test_review_handles_json_error(self, sample_srs):
         bad_client = MagicMock()
@@ -96,7 +98,7 @@ class TestSRSReviewEngine:
 
     def test_get_dimension_weights(self):
         weights = SRSReviewEngine.get_dimension_weights()
-        assert len(weights) == 10
+        assert len(weights) == 12
         total = sum(d["weight"] for d in weights.values())
         assert abs(total - 1.0) < 0.001
 

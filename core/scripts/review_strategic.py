@@ -49,7 +49,7 @@ def main() -> int:
         print("Missing mandatory sections:")
         for section in missing:
             print(f"  - {section}")
-        print("\nReview process aborted. Please ensure the SRS follows IEEE 830 structure.")
+        print("\nReview process aborted. Please ensure the SRS follows ISO/IEC/IEEE 29148 structure.")
         return 1
 
     print(f"✓ Structure valid: {len(present)} mandatory sections present")

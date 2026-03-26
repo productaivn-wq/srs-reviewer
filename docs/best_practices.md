@@ -15,3 +15,6 @@
 - **Tool Restriction**: Explicitly forbid tool usage (`DO NOT use any tools. DO NOT attempt to write files`) in system instructions when you only want raw JSON output, otherwise the agent may try to perform actions instead of returning the required generation.
 
 *Ensure all bug-fixes related to parsing updates are appended here.*
+
+## Standards Upgrade History
+- **IEEE 830 → ISO/IEC/IEEE 29148:2018** (2026-03-26): Upgraded the scoring framework from 10 to 12 dimensions. IEEE 830 (1998) was superseded by ISO/IEC/IEEE 29148 in 2011. The new standard expands scope to cover the full requirements engineering lifecycle, introduces multi-level specifications (BRS/StRS/SyRS/SRS), and defines explicit quality attributes for individual requirements (§5.2.5) and requirement sets (§5.2.6). Two new dimensions were added: D11 (Requirements Engineering Process) and D12 (Requirement Quality Attributes).

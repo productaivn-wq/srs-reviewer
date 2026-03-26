@@ -8,7 +8,7 @@ description: Context Filtering Rule — Binds SRSReviewer Project to Specific Sk
 ## 1. Active Skills
 | Skill | Status | Description |
 |---|---|---|
-| SRSAnalysis | active | 10-dimension IEEE 830 based SRS scoring framework |
+| SRSAnalysis | active | 12-dimension ISO/IEC/IEEE 29148 based SRS scoring framework |
 | SRSRewrite | active | Lossless SRS rewriting and structural enhancement |
 | DocumentControl | active | AI-powered document organization |
 | TaskManager | active | Task sync between Markdown and Jira |

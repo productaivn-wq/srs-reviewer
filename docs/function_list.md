@@ -18,7 +18,7 @@ Consistent with [system_architect.md](system_architect.md).
 | | method | `get_all_sections() -> Dict[str, str]` | Return all parsed sections |
 | | method | `get_section_list() -> List[str]` | Return list of section names |
 
-### `structure_validator.py` — IEEE 830 Structure Gate Check
+### `structure_validator.py` — ISO/IEC/IEEE 29148 Structure Gate Check
 
 | Entity | Type | Signature | Description |
 |---|---|---|---|

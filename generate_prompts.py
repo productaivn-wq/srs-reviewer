@@ -52,7 +52,7 @@ def main():
         # System instructions
         system_instruction = (
             "You are an expert system architect and business analyst reviewing an SRS document "
-            "according to IEEE 830 and ISO 29148 standards. "
+            "according to ISO/IEC/IEEE 29148:2018 standards. "
             "CRITICAL: Your ENTIRE response must be a single valid JSON object — no explanation, "
             "no markdown, no text before or after. Just pure JSON. "
             "Each dimension MUST have at least 2 issues. Review must be in Vietnamese. "

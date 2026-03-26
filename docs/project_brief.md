@@ -1,7 +1,7 @@
 # SRS Reviewer Project Brief
 
 ## Project Purpose
-To provide an automated, AI-driven quality assessment and rewrite service for Software Requirements Specification (SRS) documents based on IEEE 830 and ISO 29148 standards.
+To provide an automated, AI-driven quality assessment and rewrite service for Software Requirements Specification (SRS) documents based on ISO/IEC/IEEE 29148:2018 standards.
 
 ## Scope
 - Analyze SRS documents across 10 defined quality dimensions.

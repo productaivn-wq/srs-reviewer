@@ -1,6 +1,6 @@
 ---
 name: SRS Rewrite
-description: Lossless SRS rewriting with IEEE 830 / ISO 29148 structure enhancement, section-level splitting, and targeted gap-filling.
+description: Lossless SRS rewriting with ISO/IEC/IEEE 29148 structure enhancement, section-level splitting, and targeted gap-filling.
 version: 1.0.0
 status: active
 triggers:
@@ -13,7 +13,7 @@ triggers:
 
 # SRS Rewrite Skill
 
-Rewrite an SRS to fix issues found during analysis while maintaining **100% of the original content**. Enhances structure to follow IEEE 830 / ISO 29148 standards.
+Rewrite an SRS to fix issues found during analysis while maintaining **100% of the original content**. Enhances structure to follow ISO/IEC/IEEE 29148 standards.
 
 ## How to Use
 
@@ -52,7 +52,7 @@ The rewritten SRS MUST follow strict Markdown hierarchy:
 | Level | Usage | Example |
 |-------|-------|---------|
 | `#` | Document title (exactly ONE) | `# Hệ thống thanh toán V2 - SRS` |
-| `##` | Major sections (IEEE 830) | `## 1. Mục đích` |
+| `##` | Major sections (ISO/IEC/IEEE 29148) | `## 1. Mục đích` |
 | `###` | Subsections | `### 1.1 Phạm vi sản phẩm` |
 | `####` | Use Cases, Structural blocks | `#### UC-001: Đặt hàng online` |
 | `#####` | Atomic items | `##### FR-001.1` |
@@ -63,7 +63,7 @@ The rewritten SRS MUST follow strict Markdown hierarchy:
 
 When rewriting, ADD the following if missing (never remove existing content):
 
-### IEEE 830 Structure Alignment
+### ISO/IEC/IEEE 29148 Structure Alignment
 
 Ensure the document is structured following standard industry practices containing at least:
 1. **Mục đích & Phạm vi (Purpose & Scope)**

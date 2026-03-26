@@ -1,4 +1,4 @@
-/** Vietnamese dimension titles for the 10 IEEE 830 scoring dimensions */
+/** Vietnamese dimension titles for the 12 ISO/IEC/IEEE 29148 scoring dimensions */
 export const DIMENSION_TITLES = [
   'D1 — Mục đích & Phạm vi',
   'D2 — Bên liên quan & Yêu cầu người dùng',
@@ -10,12 +10,15 @@ export const DIMENSION_TITLES = [
   'D8 — Tiêu chí nghiệm thu & Kiểm thử',
   'D9 — Truy xuất nguồn gốc & Tính nhất quán',
   'D10 — Chất lượng tài liệu & Tiêu chuẩn',
+  'D11 — Quy trình kỹ thuật yêu cầu',
+  'D12 — Thuộc tính chất lượng yêu cầu',
 ] as const;
 
-/** Dimension weight mapping aligned with SCORING_CRITERIA.md */
+/** Dimension weight mapping aligned with SCORING_CRITERIA.md (ISO/IEC/IEEE 29148:2018) */
 export const DIMENSION_WEIGHTS: Record<string, number> = {
-  D1: 0.10, D2: 0.10, D3: 0.15, D4: 0.12, D5: 0.10,
-  D6: 0.08, D7: 0.12, D8: 0.10, D9: 0.08, D10: 0.05,
+  D1: 0.08, D2: 0.09, D3: 0.14, D4: 0.11, D5: 0.08,
+  D6: 0.07, D7: 0.11, D8: 0.09, D9: 0.08, D10: 0.05,
+  D11: 0.05, D12: 0.05,
 };
 
 /** Model options for the config panel */
@@ -27,7 +30,7 @@ export const MODEL_OPTIONS = [
 ] as const;
 
 /** System instruction sent to the LLM */
-export const SYSTEM_INSTRUCTION = `You are an expert system architect and business analyst reviewing an SRS document according to IEEE 830 and ISO 29148 standards.
+export const SYSTEM_INSTRUCTION = `You are an expert system architect and business analyst reviewing an SRS document according to ISO/IEC/IEEE 29148:2018 standards.
 CRITICAL: Your ENTIRE response must be a single valid JSON object — no explanation, no markdown, no text before or after. Just pure JSON.
 Each dimension MUST have at least 2 issues. Review must be in Vietnamese.
 DO NOT output the template variables verbatim; you must fill them with your actual evaluation.`;

@@ -1,7 +1,7 @@
 ---
 name: SRS Analysis
-description: 10-dimension SRS quality scoring framework based on IEEE 830 / ISO 29148 standards, with weighted subcriteria, PRD alignment checking, domain safety profiles, issue type classification, and annotated SRS output.
-version: 1.1.0
+description: 12-dimension SRS quality scoring framework based on ISO/IEC/IEEE 29148:2018 standards, with weighted subcriteria, PRD alignment checking, domain safety profiles, issue type classification, and annotated SRS output.
+version: 2.0.0
 status: active
 triggers:
   - "review SRS"
@@ -16,7 +16,7 @@ triggers:
 
 # SRS Analysis Skill
 
-Perform a comprehensive, evidence-based quality assessment of a Software Requirements Specification (SRS) using a 10-dimension scoring framework. Each dimension is scored independently with weighted subcriteria, producing a structured JSON result with a total weighted score and verdict.
+Perform a comprehensive, evidence-based quality assessment of a Software Requirements Specification (SRS) using a 12-dimension scoring framework based on ISO/IEC/IEEE 29148:2018. Each dimension is scored independently with weighted subcriteria, producing a structured JSON result with a total weighted score and verdict.
 
 ## How to Use
 
@@ -24,7 +24,7 @@ When the user asks you to analyze/review/score an SRS:
 
 1. Read the SRS content (from file, URL, or pasted text)
 2. Run **Structure Validation** first (gate check)
-3. Score all **10 dimensions** in one pass
+3. Score all **12 dimensions** in one pass
 4. Calculate the **weighted total score**
 5. Return structured results in the JSON output format below
 
@@ -39,46 +39,53 @@ Verify the SRS contains the expected core structural elements. Ensure the SRS fo
 | Purpose & Scope | `purpose`, `mục đích`, `scope`, `phạm vi` |
 | Overall Description | `overall description`, `tổng quan`, `user characteristics`, `đặc điểm người dùng`, `constraints`, `ràng buộc` |
 | Specific Requirements | `specific requirements`, `yêu cầu cụ thể`, `functional requirements`, `yêu cầu chức năng`, `non-functional`, `phi chức năng` |
+| Stakeholder Requirements | `stakeholder`, `bên liên quan`, `user needs`, `nhu cầu người dùng` |
 
 If missing critical elements → return `{ structureFailed: true, missingSections: [...] }` and STOP.
 
 ---
 
-## Step 2: Score All 10 Dimensions
+## Step 2: Score All 12 Dimensions
 
 ### Dimension Definitions
 
 Each dimension has an ID, title, weight (% of total), and core question. Default all subcriteria within a dimension equally unless specified.
 
-#### D1 — Purpose & Scope Clarity · Weight: 10%
+#### D1 — Purpose & Scope Clarity · Weight: 8%
 **Core question:** Is the system purpose, scope, and context clearly defined?
 
-#### D2 — Stakeholder & User Requirements · Weight: 10%
+#### D2 — Stakeholder & User Requirements · Weight: 9%
 **Core question:** Are all stakeholders identified with their needs documented?
 
-#### D3 — Functional Requirements · Weight: 15%
+#### D3 — Functional Requirements · Weight: 14%
 **Core question:** Are functional requirements specific, testable, and traceable?
 
-#### D4 — Non-Functional Requirements · Weight: 12%
+#### D4 — Non-Functional Requirements · Weight: 11%
 **Core question:** Are NFRs (performance, security, reliability, etc.) quantified?
 
-#### D5 — System Architecture & Constraints · Weight: 10%
+#### D5 — System Architecture & Constraints · Weight: 8%
 **Core question:** Are system interfaces, constraints, and dependencies documented?
 
-#### D6 — Data Requirements · Weight: 8%
+#### D6 — Data Requirements · Weight: 7%
 **Core question:** Are data models, flows, and storage requirements specified?
 
-#### D7 — Use Cases & Scenarios · Weight: 12%
+#### D7 — Use Cases & Scenarios · Weight: 11%
 **Core question:** Are use cases complete with actors, flows, and exceptions?
 
-#### D8 — Acceptance Criteria & Testing · Weight: 10%
+#### D8 — Acceptance Criteria & Testing · Weight: 9%
 **Core question:** Are acceptance criteria measurable and test plans defined?
 
 #### D9 — Traceability & Consistency · Weight: 8%
 **Core question:** Are requirements traceable to business goals and internally consistent?
 
 #### D10 — Document Quality & Standards · Weight: 5%
-**Core question:** Does the document follow IEEE 830/ISO 29148 structure?
+**Core question:** Does the document follow ISO/IEC/IEEE 29148 structure?
+
+#### D11 — Requirements Engineering Process · Weight: 5%
+**Core question:** Is the requirements engineering process (elicitation, validation, change management) documented?
+
+#### D12 — Requirement Quality Attributes · Weight: 5%
+**Core question:** Do individual requirements meet ISO/IEC/IEEE 29148 §5.2.5 quality attributes (necessary, unambiguous, singular, feasible, verifiable)?
 
 ---
 
@@ -136,6 +143,7 @@ All output MUST be in **Vietnamese**. Return the following JSON structure:
         {
           "issue": "Vấn đề",
           "severity": "critical | major | minor | nice to have",
+          "issueType": "scope_drift | missing_logic | missing_edge_case | ambiguous_wording | missing_validation | domain_safety | process_gap | quality_violation",
           "wbs": "1.2.3",
           "evidence": ["Trích dẫn"]
         }

@@ -112,7 +112,7 @@ export default function App() {
         <p>
           SRS Reviewer — Powered by{' '}
           <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">OpenRouter</a>
-          {' '}· IEEE 830 / ISO 29148
+          {' '}· ISO/IEC/IEEE 29148
         </p>
       </footer>
     </div>

@@ -1,13 +1,13 @@
 # SRS Scoring Formulation & Criteria
 
 Standardized scoring rubric for Software Requirements Specifications.
-Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE validation, and workflow coverage.
+Based on ISO/IEC/IEEE 29148:2018 with subcriteria, evidence requirements, MECE validation, workflow coverage, requirements engineering process, and requirement quality attributes.
 
 ---
 
 ## Scoring Overview
 
-- **10 weighted dimensions**, each with defined subcriteria
+- **12 weighted dimensions**, each with defined subcriteria
 - Final score: weighted average out of **100**
 - Every subcriteria score **must include evidence** (verbatim SRS quote or explicit "not found")
 
@@ -27,7 +27,7 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 ## Dimensions & Subcriteria
 
-### D1 — Purpose & Scope Clarity (10%)
+### D1 — Purpose & Scope Clarity (8%)
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
@@ -38,7 +38,7 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 ---
 
-### D2 — Stakeholder & User Requirements (10%)
+### D2 — Stakeholder & User Requirements (9%)
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
@@ -49,7 +49,7 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 ---
 
-### D3 — Functional Requirements (15%)
+### D3 — Functional Requirements (14%)
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
@@ -63,7 +63,7 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 ---
 
-### D4 — Non-Functional Requirements (12%)
+### D4 — Non-Functional Requirements (11%)
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
@@ -75,7 +75,7 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 ---
 
-### D5 — System Architecture & Constraints (10%)
+### D5 — System Architecture & Constraints (8%)
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
@@ -86,7 +86,7 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 ---
 
-### D6 — Data Requirements (8%)
+### D6 — Data Requirements (7%)
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
@@ -97,7 +97,7 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 ---
 
-### D7 — Use Cases & Scenarios (12%)
+### D7 — Use Cases & Scenarios (11%)
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
@@ -112,7 +112,7 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 ---
 
-### D8 — Acceptance Criteria & Testing (10%)
+### D8 — Acceptance Criteria & Testing (9%)
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
@@ -140,9 +140,31 @@ Based on IEEE 830 / ISO 29148 with subcriteria, evidence requirements, MECE vali
 
 | Sub | Criteria | Scoring Anchor |
 |---|---|---|
-| D10.1 | IEEE 830 / ISO 29148 structure compliance | All mandatory sections present → 100 |
+| D10.1 | ISO/IEC/IEEE 29148 structure compliance | All mandatory sections present → 100 |
 | D10.2 | Writing quality (clarity, no ambiguity) | Precise language, no weasel words → 100 |
 | D10.3 | Formatting consistency | Consistent heading numbering → 100 |
+
+---
+
+### D11 — Requirements Engineering Process (5%)
+
+| Sub | Criteria | Scoring Anchor |
+|---|---|---|
+| D11.1 | Elicitation process documented | Sources, techniques, stakeholder sessions referenced → 100; Not mentioned → 0 |
+| D11.2 | Validation & verification approach | How requirements were validated (reviews, prototypes, etc.) → 100 |
+| D11.3 | Change management process | Change request workflow, impact analysis process → 100; Missing → 0 |
+| D11.4 | Requirements baseline defined | Baseline version identified, approval gate documented → 100 |
+
+---
+
+### D12 — Requirement Quality Attributes (5%)
+
+| Sub | Criteria | Scoring Anchor |
+|---|---|---|
+| D12.1 | Individual requirement quality | Each requirement is necessary, unambiguous, singular, feasible, verifiable per §5.2.5 → 100; Violations found → deduct per violation |
+| D12.2 | Set-level quality | Requirement set is complete, consistent, affordable, bounded per §5.2.6 → 100 |
+| D12.3 | Requirement language precision | No vague terms ("should", "might", "etc.", "appropriate", "as needed") → 100; Violations → deduct |
+| D12.4 | Multi-level specification awareness | Document identifies its specification level (BRS/StRS/SyRS/SRS) and relationship to other levels → 100; Not mentioned → 50 |
 
 ---
 
@@ -169,7 +191,7 @@ If the SRS lacks content for a criteria:
 
 ## Calculation Formula
 
-$$Score = \sum_{i=1}^{10} (DimensionScore_i \times Weight_i)$$
+$$Score = \sum_{i=1}^{12} (DimensionScore_i \times Weight_i)$$
 
 Each dimension score = average of its subcriteria scores.
 
@@ -182,16 +204,18 @@ All AI prompts must include:
 ```text
 SCORING INSTRUCTIONS:
 Evaluate the SRS on a scale of 0-100 based on these weighted dimensions:
-1. Purpose & Scope Clarity (10%) — 4 subcriteria
-2. Stakeholder & User Requirements (10%) — 4 subcriteria
-3. Functional Requirements (15%) — 7 subcriteria incl. MECE checks
-4. Non-Functional Requirements (12%) — 5 subcriteria
-5. System Architecture & Constraints (10%) — 4 subcriteria
-6. Data Requirements (8%) — 4 subcriteria
-7. Use Cases & Scenarios (12%) — 8 subcriteria incl. orphan detection & workflow coverage
-8. Acceptance Criteria & Testing (10%) — 4 subcriteria
+1. Purpose & Scope Clarity (8%) — 4 subcriteria
+2. Stakeholder & User Requirements (9%) — 4 subcriteria
+3. Functional Requirements (14%) — 7 subcriteria incl. MECE checks
+4. Non-Functional Requirements (11%) — 5 subcriteria
+5. System Architecture & Constraints (8%) — 4 subcriteria
+6. Data Requirements (7%) — 4 subcriteria
+7. Use Cases & Scenarios (11%) — 8 subcriteria incl. orphan detection & workflow coverage
+8. Acceptance Criteria & Testing (9%) — 4 subcriteria
 9. Traceability & Consistency (8%) — 6 subcriteria incl. bidirectional completeness
 10. Document Quality & Standards (5%) — 3 subcriteria
+11. Requirements Engineering Process (5%) — 4 subcriteria incl. elicitation & change mgmt
+12. Requirement Quality Attributes (5%) — 4 subcriteria incl. language precision & spec-level awareness
 
 EVIDENCE RULE:
 - Every subcriteria MUST include verbatim evidence from the SRS.
@@ -208,6 +232,18 @@ ORPHAN DETECTION RULE:
 WORKFLOW RULE:
 - D7.7: Identify key business processes and check each is modeled as a UC sequence.
 - D7.8: Check for state machines / lifecycle flows where applicable.
+
+REQUIREMENTS ENGINEERING PROCESS RULE:
+- D11.1: Check if elicitation sources and techniques are documented.
+- D11.2: Check if validation approach (reviews, prototypes) is referenced.
+- D11.3: Check if change management process is defined.
+- D11.4: Check if requirements baseline version and approval gate are identified.
+
+REQUIREMENT QUALITY ATTRIBUTES RULE (per ISO/IEC/IEEE 29148 §5.2.5–§5.2.6):
+- D12.1: Sample individual requirements and check: necessary, unambiguous, singular, feasible, verifiable.
+- D12.2: Evaluate requirement set: complete, consistent, affordable, bounded.
+- D12.3: Flag vague language: "should", "might", "etc.", "appropriate", "as needed", "TBD".
+- D12.4: Check if the document identifies its specification level (SRS/SyRS/StRS/BRS).
 
 CALCULATION:
 - Score each subcriteria (0-100) with evidence.

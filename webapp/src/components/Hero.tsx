@@ -3,7 +3,7 @@ import './Hero.css';
 export function Hero() {
   return (
     <section className="hero">
-      <div className="hero-badge">⚡ IEEE 830 · ISO 29148</div>
+      <div className="hero-badge">⚡ ISO/IEC/IEEE 29148</div>
       <h1>SRS Reviewer</h1>
       <p>
         AI-powered quality assessment for Software Requirements Specifications.

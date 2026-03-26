@@ -1,6 +1,6 @@
 """
 Structure Validator Module
-Enforces mandatory structure checks for SRS based on IEEE 830 / ISO 29148 standards.
+Enforces mandatory structure checks for SRS based on ISO/IEC/IEEE 29148:2018 standards.
 """
 
 from typing import List, Tuple, Dict
@@ -10,7 +10,8 @@ from .srs_parser import SRSParser
 MANDATORY_SECTIONS = [
     "Introduction",
     "Overall Description", 
-    "Specific Requirements"
+    "Specific Requirements",
+    "Stakeholder Requirements",
 ]
 
 def normalize_section_name(name: str) -> str:

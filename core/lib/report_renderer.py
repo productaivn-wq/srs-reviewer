@@ -8,18 +8,20 @@ from pathlib import Path
 from typing import Dict, Optional
 
 
-# Dimension weights aligned with SCORING_CRITERIA.md
+# Dimension weights aligned with SCORING_CRITERIA.md (ISO/IEC/IEEE 29148:2018)
 DIMENSION_WEIGHTS = {
-    "D1": {"name": "Purpose & Scope Clarity", "weight": 0.10},
-    "D2": {"name": "Stakeholder & User Requirements", "weight": 0.10},
-    "D3": {"name": "Functional Requirements", "weight": 0.15},
-    "D4": {"name": "Non-Functional Requirements", "weight": 0.12},
-    "D5": {"name": "System Architecture & Constraints", "weight": 0.10},
-    "D6": {"name": "Data Requirements", "weight": 0.08},
-    "D7": {"name": "Use Cases & Scenarios", "weight": 0.12},
-    "D8": {"name": "Acceptance Criteria & Testing", "weight": 0.10},
+    "D1": {"name": "Purpose & Scope Clarity", "weight": 0.08},
+    "D2": {"name": "Stakeholder & User Requirements", "weight": 0.09},
+    "D3": {"name": "Functional Requirements", "weight": 0.14},
+    "D4": {"name": "Non-Functional Requirements", "weight": 0.11},
+    "D5": {"name": "System Architecture & Constraints", "weight": 0.08},
+    "D6": {"name": "Data Requirements", "weight": 0.07},
+    "D7": {"name": "Use Cases & Scenarios", "weight": 0.11},
+    "D8": {"name": "Acceptance Criteria & Testing", "weight": 0.09},
     "D9": {"name": "Traceability & Consistency", "weight": 0.08},
     "D10": {"name": "Document Quality & Standards", "weight": 0.05},
+    "D11": {"name": "Requirements Engineering Process", "weight": 0.05},
+    "D12": {"name": "Requirement Quality Attributes", "weight": 0.05},
 }
 
 VERDICT_MAP = [

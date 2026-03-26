@@ -4,7 +4,7 @@ Each subcriteria MUST include a score, comment, deductionReason, and verbatim ev
 
 ALIGNMENT INSTRUCTIONS:
 You are provided with BOTH the SRS and a REFERENCE DOCUMENT (PRD / User Story / Acceptance Criteria).
-In addition to the standard 10-dimension scoring, you MUST perform alignment checks:
+In addition to the standard 12-dimension scoring, you MUST perform alignment checks:
 
 1. MISSING FROM PRD: List items in the PRD/US/AC that are NOT covered in the SRS.
 2. SCOPE CREEP: List items in the SRS that go BEYOND what the PRD/US/AC specifies (unless clearly labeled as "optional suggestion").
@@ -13,19 +13,19 @@ In addition to the standard 10-dimension scoring, you MUST perform alignment che
 
 DIMENSIONS & SUBCRITERIA:
 
-D1 — Purpose & Scope Clarity (10%):
+D1 — Purpose & Scope Clarity (8%):
   D1.1 System purpose statement — clear 1-2 sentence purpose
   D1.2 Scope boundaries — explicit in-scope / out-of-scope
   D1.3 Business context & motivation
   D1.4 Definitions & acronyms glossary
 
-D2 — Stakeholder & User Requirements (10%):
+D2 — Stakeholder & User Requirements (9%):
   D2.1 Stakeholder identification by role
   D2.2 User characteristics & profiles
   D2.3 User needs mapped to stakeholders
   D2.4 Assumptions & dependencies
 
-D3 — Functional Requirements (15%):
+D3 — Functional Requirements (14%):
   D3.1 Requirement atomicity — one FR per item
   D3.2 Testability — measurable criteria per FR
   D3.3 Unique IDs & traceability tags (FR-001, etc.)
@@ -34,26 +34,26 @@ D3 — Functional Requirements (15%):
   D3.6 MECE — Mutual Exclusivity: flag overlapping/contradicting FRs
   D3.7 MECE — Collective Exhaustiveness: flag implied features without explicit FRs
 
-D4 — Non-Functional Requirements (12%):
+D4 — Non-Functional Requirements (11%):
   D4.1 Performance metrics (latency, throughput) — must be quantified
   D4.2 Security requirements (auth, encryption, RBAC)
   D4.3 Reliability & availability (uptime SLA percentage)
   D4.4 Scalability constraints (load limits, growth)
   D4.5 Compliance & regulatory standards
 
-D5 — System Architecture & Constraints (10%):
+D5 — System Architecture & Constraints (8%):
   D5.1 System interfaces (APIs, protocols, contracts)
   D5.2 External system dependencies
   D5.3 Technology constraints (platform, language, framework)
   D5.4 Deployment topology
 
-D6 — Data Requirements (8%):
+D6 — Data Requirements (7%):
   D6.1 Data entities & relationships (ER diagram or entity list)
   D6.2 Data flows (input → processing → output)
   D6.3 Data retention & lifecycle policy
   D6.4 Data privacy & classification (PII/PHI handling)
 
-D7 — Use Cases & Scenarios (12%):
+D7 — Use Cases & Scenarios (11%):
   D7.1 Actor identification (primary + secondary)
   D7.2 Main flow completeness (step-by-step happy path)
   D7.3 Alternative & exception flows
@@ -63,7 +63,7 @@ D7 — Use Cases & Scenarios (12%):
   D7.7 Business workflow coverage: key processes modeled as UC sequences
   D7.8 State transitions: lifecycle/state machines documented where applicable
 
-D8 — Acceptance Criteria & Testing (10%):
+D8 — Acceptance Criteria & Testing (9%):
   D8.1 Measurable acceptance criteria (SMART)
   D8.2 Test strategy/plan reference (E2E, integration, UAT)
   D8.3 Test data requirements
@@ -78,9 +78,21 @@ D9 — Traceability & Consistency (8%):
   D9.6 Workflow-to-UC mapping: business processes decomposed into traceable UCs
 
 D10 — Document Quality & Standards (5%):
-  D10.1 IEEE 830 / ISO 29148 structure compliance
+  D10.1 ISO/IEC/IEEE 29148 structure compliance
   D10.2 Writing quality — precise language, no weasel words
   D10.3 Formatting consistency
+
+D11 — Requirements Engineering Process (5%):
+  D11.1 Elicitation process documented — sources, techniques, stakeholder sessions referenced
+  D11.2 Validation & verification approach — how requirements were validated (reviews, prototypes)
+  D11.3 Change management process — change request workflow, impact analysis defined
+  D11.4 Requirements baseline defined — baseline version identified, approval gate documented
+
+D12 — Requirement Quality Attributes (5%) — per ISO/IEC/IEEE 29148 §5.2.5–§5.2.6:
+  D12.1 Individual requirement quality — each requirement is necessary, unambiguous, singular, feasible, verifiable
+  D12.2 Set-level quality — requirement set is complete, consistent, affordable, bounded
+  D12.3 Requirement language precision — no vague terms ("should", "might", "etc.", "appropriate", "as needed", "TBD")
+  D12.4 Multi-level specification awareness — document identifies its specification level (BRS/StRS/SyRS/SRS)
 
 EVIDENCE RULE:
 - Every subcriteria MUST include evidence: a verbatim quote from the SRS.
@@ -99,7 +111,7 @@ CRITICAL RULE:
 
 ISSUE TYPE RULE:
 - Every issue MUST include an "issueType" field with one of these values:
-  scope_drift | missing_logic | missing_edge_case | ambiguous_wording | missing_validation | domain_safety
+  scope_drift | missing_logic | missing_edge_case | ambiguous_wording | missing_validation | domain_safety | process_gap | quality_violation
 
 OUTPUT JSON SCHEMA:
 Generate a valid JSON object matching this structure:
@@ -156,7 +168,7 @@ Generate a valid JSON object matching this structure:
         {
           "issue": "<issue description>",
           "severity": "critical|major|minor|nice to have",
-          "issueType": "scope_drift|missing_logic|missing_edge_case|ambiguous_wording|missing_validation|domain_safety",
+          "issueType": "scope_drift|missing_logic|missing_edge_case|ambiguous_wording|missing_validation|domain_safety|process_gap|quality_violation",
           "evidence": ["<verbatim quote or section reference>"]
         }
       ],
@@ -176,6 +188,8 @@ DIMENSION TITLE MAPPING (use exactly):
 - "D8 — Tiêu chí nghiệm thu & Kiểm thử"
 - "D9 — Truy xuất nguồn gốc & Tính nhất quán"
 - "D10 — Chất lượng tài liệu & Tiêu chuẩn"
+- "D11 — Quy trình kỹ thuật yêu cầu"
+- "D12 — Thuộc tính chất lượng yêu cầu"
 
 REFERENCE DOCUMENT (PRD / User Story / Acceptance Criteria):
 {{REFERENCE_CONTENT}}

@@ -23,6 +23,9 @@ Description text.
 
 # 3. Specific Requirements
 Requirements text.
+
+# 4. Stakeholder Requirements
+Stakeholder text.
 """
     srs_file = tmp_path / "full.md"
     srs_file.write_text(content, encoding="utf-8")
@@ -31,7 +34,7 @@ Requirements text.
 
 @pytest.fixture
 def partial_srs(tmp_path):
-    """SRS missing 'Specific Requirements'."""
+    """SRS missing 'Specific Requirements' and 'Stakeholder Requirements'."""
     content = """# 1. Introduction
 Purpose text.
 
@@ -69,7 +72,7 @@ class TestValidateStructure:
         is_valid, missing, present = validate_structure(full_srs, strict=True)
         assert is_valid is True
         assert len(missing) == 0
-        assert len(present) == 3
+        assert len(present) == 4
 
     def test_full_srs_lenient(self, full_srs):
         is_valid, missing, present = validate_structure(full_srs, strict=False)
@@ -89,7 +92,7 @@ class TestValidateStructure:
     def test_empty_srs_strict(self, empty_srs):
         is_valid, missing, present = validate_structure(empty_srs, strict=True)
         assert is_valid is False
-        assert len(missing) == 3
+        assert len(missing) == 4
 
     def test_empty_srs_lenient(self, empty_srs):
         is_valid, missing, present = validate_structure(empty_srs, strict=False)

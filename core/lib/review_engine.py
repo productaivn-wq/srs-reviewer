@@ -1,6 +1,6 @@
 """
 SRS Review Engine
-Orchestrates the 10-dimension IEEE 830 based scoring using the LLM client,
+Orchestrates the 12-dimension ISO/IEC/IEEE 29148 based scoring using the LLM client,
 validates scores, and produces structured ReviewResult dicts.
 
 Supports optional PRD alignment checking and domain safety profiles.
@@ -18,7 +18,7 @@ from .srs_parser import SRSParser
 # System instruction for the LLM
 SYSTEM_INSTRUCTION = (
     "You are an expert system architect and business analyst reviewing an SRS document "
-    "according to IEEE 830 and ISO 29148 standards. "
+    "according to ISO/IEC/IEEE 29148:2018 standards. "
     "CRITICAL: Your ENTIRE response must be a single valid JSON object — no explanation, "
     "no markdown, no text before or after. Just pure JSON. "
     "Each dimension MUST have at least 2 issues. Review must be in Vietnamese. "
