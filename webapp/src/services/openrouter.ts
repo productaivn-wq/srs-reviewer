@@ -24,6 +24,7 @@ export interface ReviewRequest {
   model: string;
   mode: string;
   srsContent: string;
+  prdContent?: string;
 }
 
 /**
@@ -31,14 +32,14 @@ export interface ReviewRequest {
  * Throws on API errors.
  */
 export async function callOpenRouter(req: ReviewRequest): Promise<ReviewResult> {
-  const prompt = buildPrompt(req.srsContent, req.mode);
+  const prompt = buildPrompt(req.srsContent, req.mode, req.prdContent);
 
   const response = await fetch(OPENROUTER_URL, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${req.apiKey}`,
       'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://srs-reviewer.app',
+      'HTTP-Referer': 'https://srs-reviewer.pages.dev',
       'X-Title': 'SRS Reviewer',
     },
     body: JSON.stringify({

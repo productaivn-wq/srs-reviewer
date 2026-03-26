@@ -1,14 +1,14 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Hero } from './components/Hero';
 import { ConfigPanel } from './components/ConfigPanel';
-import { SRSInput } from './components/SRSInput';
+import { DocumentInput } from './components/DocumentInput';
 import { ReviewButton } from './components/ReviewButton';
 import { ResultsSection } from './components/ResultsSection';
 import { ReviewHistory } from './components/ReviewHistory';
 import { callOpenRouter } from './services/openrouter';
 import { recalculateScore } from './utils/scoring';
 import { useHistory } from './hooks/useHistory';
-import { MODEL_OPTIONS } from './utils/constants';
+import { MODEL_OPTIONS, REVIEW_MODES } from './utils/constants';
 import type { ReviewResult } from './types/review';
 import './App.css';
 
@@ -21,6 +21,7 @@ export default function App() {
 
   // Content state
   const [srsContent, setSrsContent] = useState('');
+  const [prdContent, setPrdContent] = useState('');
 
   // Review state
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,9 @@ export default function App() {
     localStorage.setItem('srs_openrouter_key', apiKey);
   }, [apiKey]);
 
-  const canReview = apiKey.trim().length > 0 && srsContent.trim().length > 0;
+  const selectedMode = REVIEW_MODES.find(m => m.value === mode);
+  const needsPrd = selectedMode?.requiresPrd && prdContent.trim().length === 0;
+  const canReview = apiKey.trim().length > 0 && srsContent.trim().length > 0 && !needsPrd;
 
   const handleReview = useCallback(async () => {
     if (!canReview || loading) return;
@@ -50,6 +53,7 @@ export default function App() {
         model,
         mode,
         srsContent: srsContent.trim(),
+        prdContent: prdContent.trim() || undefined,
       });
 
       // Validate & enrich
@@ -74,7 +78,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [canReview, loading, apiKey, model, mode, srsContent, addEntry]);
+  }, [canReview, loading, apiKey, model, mode, srsContent, prdContent, addEntry]);
 
   const handleLoadHistory = useCallback((historyResult: ReviewResult) => {
     setResult(historyResult);
@@ -86,11 +90,33 @@ export default function App() {
 
       <ConfigPanel
         apiKey={apiKey} mode={mode} model={model} reviewer={reviewer}
+        hasPrd={prdContent.trim().length > 0}
         onApiKeyChange={setApiKey} onModeChange={setMode}
         onModelChange={setModel} onReviewerChange={setReviewer}
       />
 
-      <SRSInput content={srsContent} onChange={setSrsContent} />
+      <section className="glass section-spacing" id="documentsSection">
+        <h2>📄 Documents</h2>
+        <div className="doc-inputs-row">
+          <DocumentInput
+            id="srsContent"
+            title="SRS Document"
+            icon="📋"
+            content={srsContent}
+            onChange={setSrsContent}
+            placeholder={'Paste your SRS content here in Markdown format...\n\n# 1. Introduction\n## 1.1 Purpose\n...'}
+          />
+          <DocumentInput
+            id="prdContent"
+            title="PRD / Reference Document"
+            icon="📑"
+            content={prdContent}
+            onChange={setPrdContent}
+            placeholder={'Paste your PRD, User Stories, or Acceptance Criteria here...\n\nUsed for alignment analysis.'}
+            optional
+          />
+        </div>
+      </section>
 
       {error && (
         <div className="error-banner" id="errorBanner">❌ {error}</div>

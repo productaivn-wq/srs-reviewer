@@ -1,0 +1,140 @@
+/* ── Document Input Panels ─────────────────── */
+.doc-inputs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 860px) {
+  .doc-inputs-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.doc-input-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  transition: border-color var(--transition);
+}
+
+.doc-input-panel:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.doc-input-panel h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.optional-badge {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 4px;
+}
+
+/* ── Textarea ──────────────────────────────── */
+.doc-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.doc-textarea:focus {
+  border-color: var(--accent);
+}
+
+.doc-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Drop Zone ─────────────────────────────── */
+.drop-zone {
+  border: 2px dashed var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-bottom: 12px;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+  border-color: var(--accent);
+  background: rgba(99, 102, 241, 0.05);
+  color: var(--accent-light);
+}
+
+.drop-zone-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.drop-zone p {
+  font-size: 13px;
+  margin: 0;
+}
+
+.drop-zone small {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.file-input { display: none; }
+
+/* ── Status Bar ────────────────────────────── */
+.doc-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.doc-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  flex-shrink: 0;
+}
+
+.clear-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all var(--transition);
+}
+
+.clear-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}

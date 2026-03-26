@@ -29,6 +29,13 @@ export const MODEL_OPTIONS = [
   { value: 'openai/gpt-4o', label: 'GPT-4o' },
 ] as const;
 
+/** Review mode options */
+export const REVIEW_MODES = [
+  { value: 'standard', label: 'Standard — Quick quality check', requiresPrd: false },
+  { value: 'strategic', label: 'Strategic — Deep architectural scrutiny', requiresPrd: false },
+  { value: 'alignment', label: 'Alignment — PRD vs SRS gap analysis', requiresPrd: true },
+] as const;
+
 /** System instruction sent to the LLM */
 export const SYSTEM_INSTRUCTION = `You are an expert system architect and business analyst reviewing an SRS document according to ISO/IEC/IEEE 29148:2018 standards.
 CRITICAL: Your ENTIRE response must be a single valid JSON object — no explanation, no markdown, no text before or after. Just pure JSON.

@@ -46,3 +46,14 @@
 .form-group select option {
   background: var(--bg-secondary);
 }
+
+.mode-hint {
+  display: block;
+  font-size: 12px;
+  margin-top: 6px;
+  color: #f59e0b;
+}
+
+.mode-hint.hint-info {
+  color: #6366f1;
+}
