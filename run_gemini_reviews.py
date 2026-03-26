@@ -1,9 +1,12 @@
 import json
 import httpx
+import os
 from pathlib import Path
 import re
 
-API_KEY = "AIzaSyCJUZDXlK00Y5togRtTww22nL3vzgH_Sjo"
+API_KEY = os.environ.get("GEMINI_API_KEY", "")
+if not API_KEY:
+    raise ValueError("GEMINI_API_KEY environment variable is not set")
 MODEL = "gemini-2.5-pro"
 URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={API_KEY}"
 
