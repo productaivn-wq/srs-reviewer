@@ -1,0 +1,117 @@
+.dimensions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.dim-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  transition: all var(--transition);
+}
+
+.dim-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+}
+
+.dim-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.dim-title {
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.dim-score {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 8px;
+  min-width: 52px;
+  text-align: center;
+}
+
+.score-high { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+.score-mid { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+.score-low { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+.dim-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.dim-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+.dim-details {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.dim-card.expanded .dim-details {
+  display: block;
+}
+
+.dim-toggle {
+  font-size: 12px;
+  color: var(--accent-light);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font);
+  padding: 4px 0;
+}
+
+.dim-toggle:hover { text-decoration: underline; }
+
+.detail-section {
+  margin-top: 12px;
+}
+
+.detail-section h4 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.detail-item {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  line-height: 1.5;
+}
+
+.detail-item:last-child { border-bottom: none; }
+
+.severity-badge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+
+.sev-critical { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+.sev-major { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+.sev-minor { background: rgba(99, 102, 241, 0.2); color: var(--accent-light); }

@@ -1,0 +1,9 @@
+.chart-container {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0;
+}
+
+.chart-container canvas {
+  max-width: 100%;
+}

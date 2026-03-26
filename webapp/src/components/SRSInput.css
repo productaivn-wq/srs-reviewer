@@ -1,0 +1,71 @@
+.srs-input-section {
+  margin-bottom: 24px;
+}
+
+.srs-input-section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.srs-textarea {
+  width: 100%;
+  min-height: 280px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.srs-textarea:focus {
+  border-color: var(--accent);
+}
+
+.srs-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Drop Zone ─────────────────────────────── */
+.drop-zone {
+  border: 2px dashed var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 32px;
+  text-align: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-bottom: 12px;
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+  border-color: var(--accent);
+  background: rgba(99, 102, 241, 0.05);
+  color: var(--accent-light);
+}
+
+.drop-zone-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.drop-zone p {
+  font-size: 14px;
+}
+
+.drop-zone small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.file-input { display: none; }
