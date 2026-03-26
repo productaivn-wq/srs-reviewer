@@ -1,5 +1,10 @@
-import { useRef, useCallback, type DragEvent } from 'react';
+import { useRef, useCallback, useState, type DragEvent } from 'react';
+import * as pdfjsLib from 'pdfjs-dist';
+import mammoth from 'mammoth';
 import './DocumentInput.css';
+
+// Configure PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
 interface Props {
   id: string;
@@ -12,18 +17,82 @@ interface Props {
   optional?: boolean;
 }
 
+/** Extract text from a PDF file using pdf.js. */
+async function extractPdfText(file: File): Promise<string> {
+  const buffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+  const pages: string[] = [];
+
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const text = content.items
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .map((item: any) => (item.str as string) ?? '')
+      .join(' ');
+    pages.push(text);
+  }
+
+  return pages.join('\n\n');
+}
+
+/** Extract text from a DOCX file using mammoth. */
+async function extractDocxText(file: File): Promise<string> {
+  const buffer = await file.arrayBuffer();
+  const result = await mammoth.extractRawText({ arrayBuffer: buffer });
+  return result.value;
+}
+
+/** Determine file type and extract text accordingly. */
+async function extractFileText(file: File): Promise<string> {
+  const name = file.name.toLowerCase();
+
+  if (name.endsWith('.pdf')) {
+    return extractPdfText(file);
+  }
+
+  if (name.endsWith('.docx')) {
+    return extractDocxText(file);
+  }
+
+  if (name.endsWith('.doc')) {
+    throw new Error('Legacy .doc format is not supported. Please convert to .docx or .pdf first.');
+  }
+
+  // Plain text / markdown
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target?.result as string);
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsText(file);
+  });
+}
+
+const ACCEPTED = '.md,.txt,.markdown,.pdf,.docx,.doc';
+
 export function DocumentInput({
-  id, title, icon, content, onChange, placeholder, accept = '.md,.txt,.markdown', optional,
+  id, title, icon, content, onChange,
+  placeholder, accept = ACCEPTED, optional,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [parsing, setParsing] = useState(false);
+  const [parseError, setParseError] = useState('');
 
-  const handleFile = useCallback((file: File | undefined) => {
+  const handleFile = useCallback(async (file: File | undefined) => {
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      onChange(e.target?.result as string);
-    };
-    reader.readAsText(file);
+    setParsing(true);
+    setParseError('');
+
+    try {
+      const text = await extractFileText(file);
+      onChange(text);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setParseError(msg);
+      console.error('File parse error:', err);
+    } finally {
+      setParsing(false);
+    }
   }, [onChange]);
 
   const handleDrop = useCallback((e: DragEvent) => {
@@ -48,7 +117,7 @@ export function DocumentInput({
         onDrop={handleDrop}
       >
         <div className="drop-zone-icon">📁</div>
-        <p>Drop your .md or .txt file here</p>
+        <p>{parsing ? '⏳ Reading file...' : 'Drop your file here (.md, .txt, .pdf, .docx)'}</p>
         <small>or click to browse</small>
       </div>
       <input
@@ -58,6 +127,10 @@ export function DocumentInput({
         accept={accept}
         onChange={e => handleFile(e.target.files?.[0])}
       />
+
+      {parseError && (
+        <div className="parse-error">❌ {parseError}</div>
+      )}
 
       <textarea
         className="doc-textarea"
